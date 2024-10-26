@@ -1,0 +1,33 @@
+.header {
+  background-color: var(--background-color-base);
+  padding: 16px 22px 13px;
+  margin-bottom: 26px;
+}
+
+.header__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header__title {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 156%;
+  color: var(--heading-color);
+}
+
+.header__buttons {
+  display: flex;
+  align-items: center;
+  gap: 19px;
+}
+
+.header__button {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  background-color: var(--background-color-base);
+  border: none;
+  padding: 8px 18px 8px;
+  cursor: pointer;
+}

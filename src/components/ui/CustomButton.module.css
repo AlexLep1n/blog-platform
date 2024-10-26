@@ -1,0 +1,9 @@
+.green {
+  border: 1px solid var(--success-color) !important;
+  border-radius: 5px;
+}
+
+.red {
+  border: 1px solid var(--error-color) !important;
+  border-radius: 5px;
+}
