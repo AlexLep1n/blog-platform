@@ -1,12 +1,11 @@
-/* eslint-disable react/prop-types */
 import { format } from 'date-fns';
 import classes from './Article.module.css';
-// import heart from './assets/heart.svg';
-// import userIcon from './assets/user-icon.svg';
+import userIcon from './assets/user-icon.svg';
 import { Rate } from 'antd';
 import { HeartFilled } from '@ant-design/icons';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { nanoid } from 'nanoid';
+import PropTypes from 'prop-types';
 
 export default function Article({
   author: { username, image: imgUrl },
@@ -14,9 +13,12 @@ export default function Article({
   description,
   createdAt,
   favoritesCount,
-  tagList = [],
+  tagList,
 }) {
   const tagsWithIds = useMemo(() => tagList.map((tag) => ({ name: tag, id: nanoid() })), [tagList]);
+
+  const [iserImage, setUserImage] = useState(imgUrl);
+  const handleError = () => setUserImage(userIcon);
 
   return (
     <div className={classes.article}>
@@ -30,7 +32,6 @@ export default function Article({
             count={1}
             disabled
           />
-          {/* <img className={classes.article__like} src={heart} alt="heart icon" /> */}
           <span className={classes['article__like-count']}>{favoritesCount}</span>
         </div>
         <div className={classes.article__tags}>
@@ -49,8 +50,22 @@ export default function Article({
             {format(new Date(createdAt), 'MMMM d, yyyy')}
           </p>
         </div>
-        <img className={classes['article__user-icon']} src={imgUrl} alt="user icon" />
+        <img
+          className={classes['article__user-icon']}
+          src={iserImage}
+          alt="user icon"
+          onError={handleError}
+        />
       </div>
     </div>
   );
 }
+
+Article.propTypes = {
+  author: PropTypes.object,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  createdAt: PropTypes.string,
+  favoritesCount: PropTypes.number,
+  tagList: PropTypes.array,
+};

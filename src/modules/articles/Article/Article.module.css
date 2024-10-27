@@ -4,6 +4,7 @@
   box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
   border-radius: 5px;
   width: 938px;
+  height: 140px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -45,7 +46,6 @@
 /* tags */
 .article__tags {
   display: flex;
-  flex-direction: column;
   gap: 8px;
 }
 

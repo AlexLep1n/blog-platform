@@ -3,4 +3,18 @@
   flex-direction: column;
   gap: 26px;
   align-items: center;
+  padding-bottom: 17px;
+}
+
+a[rel='nofollow']:hover {
+  color: white;
+}
+
+span[role='img'] > svg[data-icon='double-right'] {
+  color: var(--primary-color);
+}
+
+button[class='ant-pagination-item-link']:hover,
+button[class='ant-pagination-item-link']:hover {
+  color: #fff;
 }
