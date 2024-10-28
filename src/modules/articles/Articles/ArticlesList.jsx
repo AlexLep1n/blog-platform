@@ -1,5 +1,5 @@
 import classes from './Articles.module.css';
-import Article from '../Article/Article';
+import Article from '../../../components/parts/Article/Article';
 import { useGetArticlesQuery } from '../api';
 import { nanoid } from 'nanoid';
 import { useState, useMemo } from 'react';

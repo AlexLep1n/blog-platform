@@ -1,14 +1,16 @@
 import { format } from 'date-fns';
 import classes from './Article.module.css';
-import userIcon from './assets/user-icon.svg';
+import userIcon from '/article/user-icon.svg';
 import { Rate } from 'antd';
 import { HeartFilled } from '@ant-design/icons';
 import { useMemo, useState } from 'react';
 import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 export default function Article({
   author: { username, image: imgUrl },
+  slug,
   title,
   description,
   createdAt,
@@ -24,7 +26,9 @@ export default function Article({
     <div className={classes.article}>
       <div className={classes.article__content}>
         <div className={classes['article__title-box']}>
-          <h3 className={classes.article__title}>{title}</h3>
+          <Link to={`/articles/${slug}`} className={classes.article__title}>
+            {title}
+          </Link>
           <Rate
             className={classes.article__like}
             style={{ color: 'red' }}
@@ -63,6 +67,7 @@ export default function Article({
 
 Article.propTypes = {
   author: PropTypes.object,
+  slug: PropTypes.string,
   title: PropTypes.string,
   description: PropTypes.string,
   createdAt: PropTypes.string,

@@ -3,6 +3,8 @@ import Header from '../components/blocks/Header/Header';
 import ArticlesPage from '../pages/ArticlesPage';
 import { articlesApi } from '../modules/articles/api';
 import { store } from './store';
+import ArticleInfo from '../modules/articles/ArticleInfo/ArticleInfo';
+import { baseApi } from '../shared/api';
 
 export const router = createBrowserRouter([
   {
@@ -22,8 +24,15 @@ export const router = createBrowserRouter([
         path: 'articles',
         element: <ArticlesPage />,
         loader: ({ params }) => {
-          console.log(params);
           store.dispatch(articlesApi.util.prefetch('getArticles', params.skipCount || 0, {}));
+          return null;
+        },
+      },
+      {
+        path: 'articles/:slug',
+        element: <ArticleInfo />,
+        loader: ({ params }) => {
+          store.dispatch(baseApi.util.prefetch('getArticleInfo', params.slug, {}));
           return null;
         },
       },

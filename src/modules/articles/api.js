@@ -5,11 +5,11 @@ export const articlesApi = baseApi.injectEndpoints({
     getArticles: create.query({
       query: (skipCount) => `/articles?limit=${5}&offset=${skipCount * 5}`,
     }),
-    getArticle: create.query({
+    getArticleInfo: create.query({
       query: (slug) => `/articles/${slug}`,
     }),
   }),
   overrideExisting: true,
 });
 
-export const { useGetArticlesQuery, useGetArticleQuery } = articlesApi;
+export const { useGetArticlesQuery, useGetArticleInfoQuery } = articlesApi;
