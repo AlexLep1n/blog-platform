@@ -1,0 +1,30 @@
+.article-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.article-info__content {
+  width: 938px;
+  min-height: 807px;
+  display: flex;
+  flex-direction: column;
+  padding: 15px 14px 24px 16px;
+  background-color: var(--background-color-base);
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+}
+
+.article-info__article-box {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.article-info__body {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 140%;
+  color: var(--text-color);
+}

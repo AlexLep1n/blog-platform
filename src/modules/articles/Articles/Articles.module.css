@@ -6,6 +6,18 @@
   padding-bottom: 17px;
 }
 
+.article {
+  padding: 15px 14px 24px 16px;
+  background-color: var(--background-color-base);
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  width: 938px;
+  height: 140px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
 a[rel='nofollow']:hover {
   color: white;
 }

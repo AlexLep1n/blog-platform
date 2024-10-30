@@ -29,7 +29,12 @@ export default function Articles() {
         />
       )}
       {isLoading && <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />}
-      {isSuccess && articlesWithIds.map((article) => <Article key={article.id} {...article} />)}
+      {isSuccess &&
+        articlesWithIds.map((article) => (
+          <div key={article.id} className={classes.article}>
+            <Article {...article} />
+          </div>
+        ))}
       {isSuccess && (
         <ConfigProvider
           theme={{

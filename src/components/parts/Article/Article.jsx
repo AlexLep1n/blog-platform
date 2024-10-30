@@ -3,10 +3,10 @@ import classes from './Article.module.css';
 import userIcon from '/article/user-icon.svg';
 import { Rate } from 'antd';
 import { HeartFilled } from '@ant-design/icons';
-import { useMemo, useState } from 'react';
-import { nanoid } from 'nanoid';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { useTags } from '../../../hooks/useTags';
 
 export default function Article({
   author: { username, image: imgUrl },
@@ -17,13 +17,13 @@ export default function Article({
   favoritesCount,
   tagList,
 }) {
-  const tagsWithIds = useMemo(() => tagList.map((tag) => ({ name: tag, id: nanoid() })), [tagList]);
+  const tagsWithIds = useTags(tagList);
 
-  const [iserImage, setUserImage] = useState(imgUrl);
+  const [userImage, setUserImage] = useState(imgUrl);
   const handleError = () => setUserImage(userIcon);
 
   return (
-    <div className={classes.article}>
+    <>
       <div className={classes.article__content}>
         <div className={classes['article__title-box']}>
           <Link to={`/articles/${slug}`} className={classes.article__title}>
@@ -56,12 +56,12 @@ export default function Article({
         </div>
         <img
           className={classes['article__user-icon']}
-          src={iserImage}
+          src={userImage}
           alt="user icon"
           onError={handleError}
         />
       </div>
-    </div>
+    </>
   );
 }
 
