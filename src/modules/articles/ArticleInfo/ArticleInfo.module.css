@@ -24,10 +24,36 @@
 
 .article-info__body {
   font-weight: 400;
-  font-size: 20px;
-  line-height: 140%;
+  font-size: 14px;
+  line-height: 157%;
   color: var(--text-color);
+}
+
+.article-info__body > div {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.article-info__body ul {
+  padding-left: 20px;
+}
+
+.article-info__body h1 {
+  font-size: 20px;
+  line-height: 140%;
+  margin: 0;
+}
+
+.article-info__body h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 18px;
+  line-height: 140%;
+}
+
+.article-info__body img {
+  max-width: 100%;
 }

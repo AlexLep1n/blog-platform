@@ -30,9 +30,9 @@ export default function ArticleInfo() {
             <div className={classes['article-info__article-box']}>
               <Article {...article} />
             </div>
-            <p className={classes['article-info__body']}>
+            <div className={classes['article-info__body']}>
               <Markdown>{body}</Markdown>
-            </p>
+            </div>
           </div>
         </div>
       )}
