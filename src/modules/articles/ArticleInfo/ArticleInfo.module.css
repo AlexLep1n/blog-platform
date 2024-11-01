@@ -35,7 +35,8 @@
   gap: 10px;
 }
 
-.article-info__body ul {
+.article-info__body ul,
+ol {
   padding-left: 20px;
 }
 

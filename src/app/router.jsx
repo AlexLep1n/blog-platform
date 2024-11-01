@@ -5,6 +5,7 @@ import { articlesApi } from '../modules/articles/api';
 import { store } from './store';
 import ArticleInfo from '../modules/articles/ArticleInfo/ArticleInfo';
 import { baseApi } from '../shared/api';
+import SignIn from '../modules/auth/SignIn/SignIn';
 
 export const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
           store.dispatch(baseApi.util.prefetch('getArticleInfo', params.slug, {}));
           return null;
         },
+      },
+      {
+        path: '/sign-in',
+        element: <SignIn />,
       },
     ],
   },
