@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import ColorButton from '../../ui/ColorButton/ColorButton';
 import classes from './Header.module.css';
 
 export default function Header() {
@@ -9,13 +8,16 @@ export default function Header() {
         <Link to={'/'} className={classes.header__title}>
           Realworld Blog
         </Link>
-        <div className={classes.header__buttons}>
-          <button className={`${classes.header__button} ${classes['button_green']}`}>
+        <div className={classes.header__links}>
+          <Link to={'/sign-in'} className={classes['header__link']}>
             Sign In
-          </button>
-          <ColorButton btnClass={classes.header__button} color={'green'}>
+          </Link>
+          <Link
+            to={'/sign-up'}
+            className={`${classes['header__link']} ${classes['header__link_green']}`}
+          >
             Sign Up
-          </ColorButton>
+          </Link>
         </div>
       </div>
     </header>

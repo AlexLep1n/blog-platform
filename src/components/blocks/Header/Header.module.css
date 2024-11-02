@@ -18,17 +18,23 @@
   cursor: pointer;
 }
 
-.header__buttons {
+.header__links {
   display: flex;
   align-items: center;
   gap: 19px;
 }
 
-.header__button {
-  font-family: 'Inter', sans-serif;
+.header__link {
+  font-family: var(--font-family);
   font-weight: 400;
-  background-color: var(--background-color-base);
-  border: none;
-  padding: 8px 18px 8px;
-  cursor: pointer;
+  font-size: 18px;
+  line-height: 156%;
+  color: var(--heading-color-);
+  padding: 6px 18px 10px;
+}
+
+.header__link_green {
+  color: var(--success-color);
+  border: 1px solid var(--success-color);
+  border-radius: 5px;
 }

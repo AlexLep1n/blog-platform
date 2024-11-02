@@ -38,7 +38,7 @@ export const router = createBrowserRouter([
         },
       },
       {
-        path: '/sign-in',
+        path: 'sign-in',
         element: <SignIn />,
       },
     ],
