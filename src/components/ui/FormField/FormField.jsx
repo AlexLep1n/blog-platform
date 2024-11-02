@@ -1,31 +1,27 @@
 import PropTypes from 'prop-types';
 import classes from './FormField.module.css';
-import { Controller } from 'react-hook-form';
+import { useController } from 'react-hook-form';
 
-export default function FormField({ control, name, children, rules, errors }) {
+export default function FormField({ control, name, children, rules }) {
+  const {
+    field: { onBlur, onChange, value, ref },
+    fieldState: { error },
+  } = useController({ control, name, rules });
+
   return (
     <div>
       <label className={classes.label}>
         {children}
-        <Controller
-          control={control}
-          name={name}
-          rules={rules}
-          render={({ field: { onChange, onBlur, value, ref } }) => (
-            <input
-              className={
-                errors[name] ? `${classes.input} ${classes['input_error']}` : classes.input
-              }
-              type="text"
-              onChange={onChange}
-              onBlur={onBlur}
-              value={value || ''} // Убедитесь, что значение всегда определено
-              ref={ref}
-            />
-          )}
+        <input
+          className={error ? `${classes.input} ${classes['input_error']}` : classes.input}
+          type="text"
+          onChange={onChange}
+          onBlur={onBlur}
+          value={value || ''} // Убедитесь, что значение всегда определено
+          ref={ref}
         />
       </label>
-      {errors[name] && <p className={classes.error}>{errors[name].message}</p>}
+      {error && <p className={classes.error}>{error.message}</p>}
     </div>
   );
 }
