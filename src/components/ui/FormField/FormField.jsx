@@ -17,7 +17,7 @@ export default function FormField({ control, name, children, rules }) {
           type="text"
           onChange={onChange}
           onBlur={onBlur}
-          value={value || ''} // Убедитесь, что значение всегда определено
+          value={value || ''} // Значение всегда должно быть определено
           ref={ref}
         />
       </label>

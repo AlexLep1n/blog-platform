@@ -6,6 +6,7 @@ import { store } from './store';
 import ArticleInfo from '../modules/articles/ArticleInfo/ArticleInfo';
 import { baseApi } from '../shared/api';
 import SignIn from '../modules/auth/SignIn/SignIn';
+import SignUp from '../modules/auth/SignUp/SignUp';
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
       {
         path: 'sign-in',
         element: <SignIn />,
+      },
+      {
+        path: 'sign-up',
+        element: <SignUp />,
       },
     ],
   },

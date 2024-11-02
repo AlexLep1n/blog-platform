@@ -6,11 +6,11 @@ import classes from './SignIn.module.css';
 export default function SignIn() {
   const {
     handleSubmit,
-    formState: { errors },
     control,
     reset,
+    formState: { isValid },
   } = useForm({
-    mode: 'onSubmit',
+    mode: 'onChange',
   });
 
   function onSubmit(data) {
@@ -33,7 +33,6 @@ export default function SignIn() {
                 message: 'Enter a valid email address',
               },
             }}
-            errors={errors}
             placeholder="Email address"
           >
             Email address
@@ -48,13 +47,12 @@ export default function SignIn() {
                 message: 'Your password is too short.',
               },
             }}
-            errors={errors}
             placeholder="Password"
           >
             Password
           </FormField>
         </div>
-        <SubmitButton>Login</SubmitButton>
+        <SubmitButton disabled={!isValid}>Login</SubmitButton>
       </form>
     </section>
   );
