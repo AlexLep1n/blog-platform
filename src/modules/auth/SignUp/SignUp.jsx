@@ -4,6 +4,8 @@ import classes from './SignUp.module.css';
 import SubmitButton from '../../../components/ui/SubmitButton/SubmitButton';
 import Checkbox from 'antd/es/checkbox/Checkbox';
 import { Link } from 'react-router-dom';
+import { useSignUpUserMutation } from '../api';
+import { useState } from 'react';
 
 export default function SignUp() {
   const {
@@ -15,13 +17,35 @@ export default function SignUp() {
   } = useForm({
     mode: 'onChange',
     defaultValues: {
+      // username: 'alex',
+      // email: 'alex@mail.ru',
+      // password: '123456',
+      // repeatPassword: '123456',
       checkbox: true,
     },
   });
+  const [signUpErrors, setSignUpErrors] = useState({ username: '', email: '', password: '' });
 
-  const onSubmit = (data) => {
-    console.log(data);
-    reset();
+  const [signUpUser] = useSignUpUserMutation();
+
+  const onSubmit = async (userData) => {
+    try {
+      const { user } = await signUpUser(userData).unwrap();
+
+      localStorage.setItem('email', `${user.email}`);
+      localStorage.setItem('token', `${user.token}`);
+      localStorage.setItem('username', `${user.username}`);
+
+      setSignUpErrors({ username: '', email: '', password: '' });
+      reset();
+    } catch (error) {
+      setSignUpErrors({
+        username: error?.data.errors?.username,
+        email: error?.data.errors?.email,
+        password: error?.data.errors?.message,
+      });
+      console.log(`Failed to sign up with error: ${error?.data.errors}`);
+    }
   };
 
   const password = watch('password');
@@ -34,6 +58,7 @@ export default function SignUp() {
           <FormField
             control={control}
             name="username"
+            signUpErrors={signUpErrors}
             rules={{
               required: 'You should enter your username.',
               minLength: {
@@ -52,6 +77,7 @@ export default function SignUp() {
           <FormField
             control={control}
             name="email"
+            signUpErrors={signUpErrors}
             rules={{
               required: 'You should enter your email address.',
               pattern: {
@@ -66,6 +92,7 @@ export default function SignUp() {
           <FormField
             control={control}
             name="password"
+            signUpErrors={signUpErrors}
             rules={{
               required: 'You should enter your email password.',
               minLength: {
@@ -83,7 +110,7 @@ export default function SignUp() {
           </FormField>
           <FormField
             control={control}
-            name="repeat password"
+            name="repeatPassword"
             rules={{
               required: 'You should enter your email password.',
               minLength: {

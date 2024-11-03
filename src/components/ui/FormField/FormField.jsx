@@ -2,7 +2,14 @@ import PropTypes from 'prop-types';
 import classes from './FormField.module.css';
 import { useController } from 'react-hook-form';
 
-export default function FormField({ control, name, children, rules }) {
+export default function FormField({
+  control,
+  name,
+  children,
+  rules,
+  signUpErrors = '',
+  signInErrors = '',
+}) {
   const {
     field: { onBlur, onChange, value, ref },
     fieldState: { error },
@@ -13,7 +20,11 @@ export default function FormField({ control, name, children, rules }) {
       <label className={classes.label}>
         {children}
         <input
-          className={error ? `${classes.input} ${classes['input_error']}` : classes.input}
+          className={
+            error || signUpErrors?.name
+              ? `${classes.input} ${classes['input_error']}`
+              : classes.input
+          }
           type="text"
           onChange={onChange}
           onBlur={onBlur}
@@ -22,6 +33,12 @@ export default function FormField({ control, name, children, rules }) {
         />
       </label>
       {error && <p className={classes.error}>{error.message}</p>}
+      {signUpErrors[name] && (
+        <p className={classes.error}>
+          {signUpErrors[name][0].toUpperCase() + signUpErrors[name].slice(1)}
+        </p>
+      )}
+      {signInErrors && <p className={classes.error}>{`Email or password ${signInErrors}`}</p>}
     </div>
   );
 }
@@ -32,4 +49,6 @@ FormField.propTypes = {
   children: PropTypes.string.isRequired,
   rules: PropTypes.object,
   errors: PropTypes.object,
+  signUpErrors: PropTypes.object,
+  signInErrors: PropTypes.string,
 };
