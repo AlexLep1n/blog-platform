@@ -1,9 +1,17 @@
-.green {
-  border: 1px solid var(--success-color) !important;
+.btn {
+  border: 1px solid;
   border-radius: 5px;
+  background-color: var(--background-color-base);
+}
+
+.green {
+  border-color: var(--success-color);
 }
 
 .red {
-  border: 1px solid var(--error-color) !important;
-  border-radius: 5px;
+  border-color: var(--error-color);
+}
+
+.grey {
+  border-color: var(--text-color);
 }

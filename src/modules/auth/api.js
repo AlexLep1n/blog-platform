@@ -1,7 +1,5 @@
 import { baseApi } from '../../shared/api';
 
-// const apiToken = localStorage.getItem('token') || '';
-
 export const authApi = baseApi.injectEndpoints({
   endpoints: (create) => ({
     signUpUser: create.mutation({

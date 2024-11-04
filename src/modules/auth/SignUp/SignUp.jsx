@@ -30,12 +30,7 @@ export default function SignUp() {
 
   const onSubmit = async (userData) => {
     try {
-      const { user } = await signUpUser(userData).unwrap();
-
-      localStorage.setItem('email', `${user.email}`);
-      localStorage.setItem('token', `${user.token}`);
-      localStorage.setItem('username', `${user.username}`);
-
+      await signUpUser(userData).unwrap();
       setSignUpErrors({ username: '', email: '', password: '' });
       reset();
     } catch (error) {

@@ -3,7 +3,7 @@ import classes from './ColorButton.module.css';
 
 export default function ColorButton({ children, color, btnClass, ...props }) {
   return (
-    <button className={`${btnClass} ${color === 'green' ? classes.green : classes.red}`} {...props}>
+    <button className={`${classes.btn} ${btnClass} ${classes[color]}`} {...props}>
       {children}
     </button>
   );

@@ -14,26 +14,24 @@ export default function SignIn() {
     formState: { isValid },
   } = useForm({
     mode: 'onChange',
-    defaultValues: {
-      email: localStorage.getItem('email'),
-    },
   });
 
   const [signInErrors, setSignInErrors] = useState('');
+  const [signInUser] = useSignInUserMutation();
 
   const navigate = useNavigate();
 
-  async function onSubmit(loginUserData) {
+  const onSubmit = async (loginUserData) => {
     try {
       console.log(loginUserData);
-      await signInUser(loginUserData).unwrap();
+      const { user } = await signInUser(loginUserData).unwrap();
+      localStorage.setItem('user', JSON.stringify(user));
       reset();
-      navigate('..', { relative: 'path' });
+      navigate('/articles');
     } catch (error) {
       setSignInErrors(error.data.errors['email or password']);
     }
-  }
-  const [signInUser] = useSignInUserMutation();
+  };
 
   return (
     <section className={classes['sign-in']}>

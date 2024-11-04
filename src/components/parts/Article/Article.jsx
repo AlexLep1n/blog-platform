@@ -1,9 +1,8 @@
 import { format } from 'date-fns';
 import classes from './Article.module.css';
-import userIcon from '/article/user-icon.svg';
+import userIcon from '/img/user-icon.svg';
 import { Rate } from 'antd';
 import { HeartFilled } from '@ant-design/icons';
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useTags } from '../../../hooks/useTags';
@@ -18,9 +17,6 @@ export default function Article({
   tagList,
 }) {
   const tagsWithIds = useTags(tagList);
-
-  const [userImage, setUserImage] = useState(imgUrl);
-  const handleError = () => setUserImage(userIcon);
 
   return (
     <>
@@ -54,12 +50,7 @@ export default function Article({
             {format(new Date(createdAt), 'MMMM d, yyyy')}
           </p>
         </div>
-        <img
-          className={classes['article__user-icon']}
-          src={userImage}
-          alt="user icon"
-          onError={handleError}
-        />
+        <img className={classes['article__user-icon']} src={imgUrl ?? userIcon} alt="user icon" />
       </div>
     </>
   );

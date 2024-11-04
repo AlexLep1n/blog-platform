@@ -1,5 +1,4 @@
 import { createBrowserRouter, Outlet, redirect } from 'react-router-dom';
-import Header from '../components/blocks/Header/Header';
 import ArticlesPage from '../pages/ArticlesPage';
 import { articlesApi } from '../modules/articles/api';
 import { store } from './store';
@@ -7,6 +6,7 @@ import ArticleInfo from '../modules/articles/ArticleInfo/ArticleInfo';
 import { baseApi } from '../shared/api';
 import SignIn from '../modules/auth/SignIn/SignIn';
 import SignUp from '../modules/auth/SignUp/SignUp';
+import Header from '../components/blocks/Header/Header';
 
 export const router = createBrowserRouter([
   {
