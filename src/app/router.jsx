@@ -7,6 +7,7 @@ import { baseApi } from '../shared/api';
 import SignIn from '../modules/auth/SignIn/SignIn';
 import SignUp from '../modules/auth/SignUp/SignUp';
 import Header from '../components/blocks/Header/Header';
+import EditProfile from '../modules/profile/EditProfile';
 
 export const router = createBrowserRouter([
   {
@@ -46,6 +47,7 @@ export const router = createBrowserRouter([
         path: 'sign-up',
         element: <SignUp />,
       },
+      { path: 'profile', element: <EditProfile /> },
     ],
   },
 ]);

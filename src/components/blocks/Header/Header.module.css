@@ -56,6 +56,12 @@
   gap: 13px;
 }
 
+.header__img {
+  width: 46px;
+  height: 46px;
+  border-radius: 100%;
+}
+
 .logout {
   font-weight: 400;
   font-size: 18px;

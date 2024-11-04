@@ -5,6 +5,7 @@ import ColorButton from '../../ui/ColorButton/ColorButton';
 
 export default function Header() {
   const user = JSON.parse(localStorage.getItem('user'));
+  console.log('HEADER', user);
 
   const navigate = useNavigate();
   const logOutHandler = () => {
@@ -41,7 +42,11 @@ export default function Header() {
             </Link>
             <Link to={'/profile'} className={classes.header__profile}>
               <p>{user.username}</p>
-              <img src={user.img ?? userIcon} alt="profile image" />
+              <img
+                src={user.image ?? userIcon}
+                alt="profile image"
+                className={classes.header__img}
+              />
             </Link>
             <ColorButton onClick={logOutHandler} color="grey" btnClass={classes.logout}>
               Log Out

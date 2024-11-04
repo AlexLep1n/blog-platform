@@ -24,6 +24,7 @@ export default function SignUp() {
       checkbox: true,
     },
   });
+
   const [signUpErrors, setSignUpErrors] = useState({ username: '', email: '', password: '' });
 
   const [signUpUser] = useSignUpUserMutation();
@@ -87,9 +88,10 @@ export default function SignUp() {
           <FormField
             control={control}
             name="password"
+            type="password"
             signUpErrors={signUpErrors}
             rules={{
-              required: 'You should enter your email password.',
+              required: true,
               minLength: {
                 value: 6,
                 message: 'Your password needs to be at least 6 characters.',
@@ -106,6 +108,7 @@ export default function SignUp() {
           <FormField
             control={control}
             name="repeatPassword"
+            type="password"
             rules={{
               required: 'You should enter your email password.',
               minLength: {

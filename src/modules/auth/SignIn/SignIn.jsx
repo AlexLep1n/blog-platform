@@ -27,7 +27,7 @@ export default function SignIn() {
       const { user } = await signInUser(loginUserData).unwrap();
       localStorage.setItem('user', JSON.stringify(user));
       reset();
-      navigate('/articles');
+      navigate('/');
     } catch (error) {
       setSignInErrors(error.data.errors['email or password']);
     }
@@ -56,6 +56,7 @@ export default function SignIn() {
           <FormField
             control={control}
             name="password"
+            type="password"
             signInErrors={signInErrors}
             rules={{
               required: 'Password is invalid. Please try again.',
