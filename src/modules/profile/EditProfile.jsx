@@ -6,18 +6,14 @@ import { Alert, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import SubmitButton from '../../components/ui/SubmitButton/SubmitButton';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function EditProfile() {
   const { data: { user } = {}, isLoading, isSuccess, isError } = useGetCurrentUserQuery();
-  const [updateUser] = useUpdateCurrentUserMutation();
-
-  const storageUser = JSON.parse(localStorage.getItem('user'));
+  const [updateUser, { isError: isServerError }] = useUpdateCurrentUserMutation();
 
   const navigate = useNavigate();
-  const [editError, setEditError] = useState({});
-  console.log('USER', user);
-  console.log('LS', storageUser);
+  const [serverError, setServerError] = useState({});
 
   const {
     control,
@@ -27,20 +23,29 @@ export default function EditProfile() {
   } = useForm({
     mode: 'onChange',
     defaultValues: {
-      username: user?.username || storageUser.username,
-      email: user?.email || storageUser.email,
+      username: user?.username,
+      email: user?.email,
     },
   });
+
+  useEffect(() => {
+    if (user && isSuccess && !isServerError) {
+      reset({ username: user.username, email: user.email });
+    }
+  }, [reset, user, isSuccess, isServerError]);
 
   const onSubmit = async (editUserData) => {
     try {
       const { user } = await updateUser(editUserData).unwrap();
-      localStorage.setItem('user', JSON.stringify(user));
-      reset({ username: user?.username, email: user?.email });
+      reset({ username: user.username, email: user.email });
       navigate('/profile');
     } catch (error) {
+      reset({ username: editUserData.username, email: editUserData.email });
       console.log('ОШИБКА: ', error.data.errors);
-      setEditError(error.data.errors);
+      setServerError({
+        username: error?.data.errors.username,
+        email: error?.data.errors.email,
+      });
     }
   };
   return (
@@ -62,7 +67,8 @@ export default function EditProfile() {
               <FormField
                 control={control}
                 name="username"
-                editError={editError}
+                serverError={serverError}
+                clearError={() => setServerError((prev) => ({ ...prev, username: '' }))}
                 rules={{
                   required: true,
                   minLength: {
@@ -75,7 +81,7 @@ export default function EditProfile() {
                   },
                   pattern: {
                     value:
-                      '/^[A-Za-zА-Яа-яЁё0-9]+(-[A-Za-zА-Яа-яЁё0-9]+)?( [A-Za-zА-Яа-яЁё0-9]+(-[A-Za-zА-Яа-яЁё0-9]+)?)?$/',
+                      /^[A-Za-zА-Яа-яЁё0-9]+(-[A-Za-zА-Яа-яЁё0-9]+)?( [A-Za-zА-Яа-яЁё0-9]+(-[A-Za-zА-Яа-яЁё0-9]+)?)?$/,
                     message: 'Your username is invalid.',
                   },
                 }}
@@ -86,7 +92,8 @@ export default function EditProfile() {
               <FormField
                 control={control}
                 name="email"
-                editError={editError}
+                serverError={serverError}
+                clearError={() => setServerError((prev) => ({ ...prev, email: '' }))}
                 rules={{
                   required: true,
                   pattern: {

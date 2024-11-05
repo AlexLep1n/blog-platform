@@ -2,16 +2,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import classes from './Header.module.css';
 import userIcon from '/img/user-icon.svg';
 import ColorButton from '../../ui/ColorButton/ColorButton';
+import { useGetCurrentUserQuery } from '../../../modules/profile/api';
 
 export default function Header() {
-  const user = JSON.parse(localStorage.getItem('user'));
-  console.log('HEADER', user);
+  const token = localStorage.getItem('token');
 
   const navigate = useNavigate();
   const logOutHandler = () => {
-    localStorage.removeItem('user');
+    localStorage.removeItem('token');
     navigate('/');
   };
+  const { data: { user } = {}, isSuccess } = useGetCurrentUserQuery();
 
   return (
     <header className={classes.header}>
@@ -19,7 +20,7 @@ export default function Header() {
         <Link to={'/'} className={classes.header__title}>
           Realworld Blog
         </Link>
-        {!user && (
+        {!token && (
           <div className={classes.header__links}>
             <Link to={'/sign-in'} className={classes['header__link']}>
               Sign In
@@ -32,7 +33,7 @@ export default function Header() {
             </Link>
           </div>
         )}
-        {user && (
+        {token && user && isSuccess && (
           <div className={`${classes.header__links} ${classes.header__links_gap}`}>
             <Link
               to={'/new-article'}

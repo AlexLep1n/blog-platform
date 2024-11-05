@@ -16,7 +16,7 @@ export default function SignIn() {
     mode: 'onChange',
   });
 
-  const [signInErrors, setSignInErrors] = useState('');
+  const [signInError, setSignInError] = useState('');
   const [signInUser] = useSignInUserMutation();
 
   const navigate = useNavigate();
@@ -24,12 +24,14 @@ export default function SignIn() {
   const onSubmit = async (loginUserData) => {
     try {
       console.log(loginUserData);
-      const { user } = await signInUser(loginUserData).unwrap();
-      localStorage.setItem('user', JSON.stringify(user));
+      const {
+        user: { token },
+      } = await signInUser(loginUserData).unwrap();
+      localStorage.setItem('token', `${token}`);
       reset();
-      navigate('/');
+      navigate('/articles');
     } catch (error) {
-      setSignInErrors(error.data.errors['email or password']);
+      setSignInError(error.data.errors['email or password']);
     }
   };
 
@@ -41,7 +43,7 @@ export default function SignIn() {
           <FormField
             control={control}
             name="email"
-            signInErrors={signInErrors}
+            signInError={signInError}
             rules={{
               required: 'Login is invalid. Please try again.',
               pattern: {
@@ -57,7 +59,7 @@ export default function SignIn() {
             control={control}
             name="password"
             type="password"
-            signInErrors={signInErrors}
+            signInError={signInError}
             rules={{
               required: 'Password is invalid. Please try again.',
               minLength: {

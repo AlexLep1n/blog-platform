@@ -1,6 +1,6 @@
 import { baseApi } from '../../shared/api';
 
-const apiToken = JSON.parse(localStorage.getItem('user'))?.token || '';
+const apiToken = localStorage.getItem('token');
 
 export const profileApi = baseApi.injectEndpoints({
   endpoints: (create) => ({

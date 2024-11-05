@@ -7,10 +7,10 @@ export default function FormField({
   name,
   children,
   rules,
-  signUpErrors = '',
-  signInErrors = '',
-  editError = '',
+  serverError = '',
+  signInError = '',
   type = 'text',
+  clearError,
   ...props
 }) {
   const {
@@ -18,20 +18,23 @@ export default function FormField({
     fieldState: { error },
   } = useController({ control, name, rules });
 
-  console.log(editError[name]);
-
   return (
     <div>
       <label className={classes.label}>
         {children}
         <input
           className={
-            error || signUpErrors[name] || editError[name]
+            error || serverError[name]
               ? `${classes.input} ${classes['input_error']}`
               : classes.input
           }
           type={type}
-          onChange={onChange}
+          onChange={(e) => {
+            onChange(e);
+            if (clearError) {
+              clearError();
+            }
+          }}
           onBlur={onBlur}
           value={value || ''} // Значение всегда должно быть определено
           ref={ref}
@@ -39,17 +42,12 @@ export default function FormField({
         />
       </label>
       {error && <p className={classes.error}>{error.message}</p>}
-      {signUpErrors[name] && (
+      {serverError[name] && (
         <p className={classes.error}>
-          {signUpErrors[name][0].toUpperCase() + signUpErrors[name].slice(1)}
+          {serverError[name][0].toUpperCase() + serverError[name].slice(1)}
         </p>
       )}
-      {signInErrors && <p className={classes.error}>{`Email or password ${signInErrors}`}</p>}
-      {editError[name] && (
-        <p className={classes.error}>
-          {editError[name][0].toUpperCase() + editError[name].slice(1)}
-        </p>
-      )}
+      {signInError && <p className={classes.error}>{`Email or password ${signInError}`}</p>}
     </div>
   );
 }
@@ -60,8 +58,9 @@ FormField.propTypes = {
   children: PropTypes.string.isRequired,
   rules: PropTypes.object.isRequired,
   errors: PropTypes.object,
-  signUpErrors: PropTypes.object,
-  signInErrors: PropTypes.string,
+  serverError: PropTypes.object,
+  signInError: PropTypes.string,
   editError: PropTypes.object,
   type: PropTypes.string,
+  clearError: PropTypes.func,
 };

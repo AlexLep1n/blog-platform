@@ -25,20 +25,18 @@ export default function SignUp() {
     },
   });
 
-  const [signUpErrors, setSignUpErrors] = useState({ username: '', email: '', password: '' });
+  const [serverError, setServerError] = useState({});
 
   const [signUpUser] = useSignUpUserMutation();
 
   const onSubmit = async (userData) => {
     try {
       await signUpUser(userData).unwrap();
-      setSignUpErrors({ username: '', email: '', password: '' });
       reset();
     } catch (error) {
-      setSignUpErrors({
-        username: error?.data.errors?.username,
-        email: error?.data.errors?.email,
-        password: error?.data.errors?.message,
+      setServerError({
+        username: error?.data.errors.username,
+        email: error?.data.errors.email,
       });
       console.log(`Failed to sign up with error: ${error?.data.errors}`);
     }
@@ -54,7 +52,8 @@ export default function SignUp() {
           <FormField
             control={control}
             name="username"
-            signUpErrors={signUpErrors}
+            serverError={serverError}
+            clearError={() => setServerError((prev) => ({ ...prev, username: '' }))}
             rules={{
               required: 'You should enter your username.',
               minLength: {
@@ -73,7 +72,8 @@ export default function SignUp() {
           <FormField
             control={control}
             name="email"
-            signUpErrors={signUpErrors}
+            serverError={serverError}
+            clearError={() => setServerError((prev) => ({ ...prev, email: '' }))}
             rules={{
               required: 'You should enter your email address.',
               pattern: {
@@ -89,7 +89,7 @@ export default function SignUp() {
             control={control}
             name="password"
             type="password"
-            signUpErrors={signUpErrors}
+            serverError={serverError}
             rules={{
               required: true,
               minLength: {
