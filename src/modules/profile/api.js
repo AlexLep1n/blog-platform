@@ -5,11 +5,11 @@ const apiToken = localStorage.getItem('token');
 export const profileApi = baseApi.injectEndpoints({
   endpoints: (create) => ({
     getCurrentUser: create.query({
-      query: () => ({
+      query: (token) => ({
         url: '/user',
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${apiToken}`,
+          Authorization: `Bearer ${token}`,
         },
       }),
       providesTags: ['Edit'],

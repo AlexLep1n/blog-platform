@@ -3,6 +3,7 @@ import classes from './Header.module.css';
 import userIcon from '/img/user-icon.svg';
 import ColorButton from '../../ui/ColorButton/ColorButton';
 import { useGetCurrentUserQuery } from '../../../modules/profile/api';
+import { skipToken } from '@reduxjs/toolkit/query';
 
 export default function Header() {
   const token = localStorage.getItem('token');
@@ -12,7 +13,7 @@ export default function Header() {
     localStorage.removeItem('token');
     navigate('/');
   };
-  const { data: { user } = {}, isSuccess } = useGetCurrentUserQuery();
+  const { data: { user } = {}, isSuccess } = useGetCurrentUserQuery(token || skipToken);
 
   return (
     <header className={classes.header}>
