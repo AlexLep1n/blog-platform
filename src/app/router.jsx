@@ -8,6 +8,7 @@ import SignIn from '../modules/auth/SignIn/SignIn';
 import SignUp from '../modules/auth/SignUp/SignUp';
 import Header from '../components/blocks/Header/Header';
 import EditProfile from '../modules/profile/EditProfile';
+import ArticleForm from '../modules/article-form/ArticleForm';
 
 export const router = createBrowserRouter([
   {
@@ -47,7 +48,14 @@ export const router = createBrowserRouter([
         path: 'sign-up',
         element: <SignUp />,
       },
-      { path: 'profile', element: <EditProfile /> },
+      {
+        path: 'profile',
+        element: <EditProfile />,
+      },
+      {
+        path: '/new-article',
+        element: <ArticleForm />,
+      },
     ],
   },
 ]);

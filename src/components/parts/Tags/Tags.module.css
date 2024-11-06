@@ -1,0 +1,44 @@
+.tags {
+  display: flex;
+}
+
+.tags__box {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.tags__title {
+  font-family: var(--second-family);
+  font-weight: 400;
+  font-size: 14px;
+  color: #262626;
+}
+
+.tags__new {
+  display: flex;
+  gap: 17px;
+}
+
+.tags__input {
+  border: 1px solid var(--normal-color);
+  border-radius: 4px;
+  width: 300px;
+  height: 40px;
+  padding: 8px 12px;
+  font-family: var(--second-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--text-color);
+}
+
+.tags__add {
+  padding: 8px 40px;
+  font-family: var(--second-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  text-align: center;
+  color: var(--primary-color);
+}

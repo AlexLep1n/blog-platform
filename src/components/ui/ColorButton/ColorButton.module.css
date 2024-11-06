@@ -2,6 +2,7 @@
   border: 1px solid;
   border-radius: 5px;
   background-color: var(--background-color-base);
+  cursor: pointer;
 }
 
 .green {
@@ -14,4 +15,8 @@
 
 .grey {
   border-color: var(--text-color);
+}
+
+.blue {
+  border-color: var(--primary-color);
 }

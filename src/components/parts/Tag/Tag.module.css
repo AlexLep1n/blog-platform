@@ -1,0 +1,31 @@
+.tag {
+  display: flex;
+  gap: 17px;
+}
+
+.tag__input {
+  border: 1px solid var(--normal-color);
+  border-radius: 4px;
+  width: 300px;
+  height: 40px;
+  padding: 8px 12px;
+  font-family: var(--second-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--text-color);
+}
+
+.tag__input:disabled {
+  background-color: var(--background-color-base);
+}
+
+.tag__delete {
+  padding: 8px 36px;
+  font-family: var(--second-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  text-align: center;
+  color: var(--error-color);
+}
