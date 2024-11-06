@@ -3,28 +3,33 @@ import classes from './Tags.module.css';
 import ColorButton from '../../ui/ColorButton/ColorButton';
 import { nanoid } from 'nanoid';
 import Tag from '../Tag/Tag';
+import { useFieldArray } from 'react-hook-form';
+import PropTypes from 'prop-types';
 
-export default function Tags() {
-  const [tags, setTags] = useState([]);
+export default function Tags({ control, name }) {
   const [tagValue, setTagValue] = useState('');
+
+  const { fields, append, remove } = useFieldArray({ control, name });
 
   const addNewTag = (e) => {
     e.preventDefault();
-    setTags([...tags, { id: nanoid(), value: tagValue }]);
-    setTagValue('');
+    if (tagValue.trim() !== '') {
+      append({ id: nanoid(), value: tagValue });
+      setTagValue('');
+    }
   };
 
-  const deleteTag = (e, removeId) => {
+  const deleteTag = (e, i) => {
     e.preventDefault();
-    setTags(tags.filter((tag) => tag.id !== removeId));
+    remove(i);
   };
 
   return (
     <div className={classes.tags}>
       <div className={classes.tags__box}>
         <p className={classes.tags__title}>Tags</p>
-        {tags.map((tag) => (
-          <Tag key={tag.id} tagValue={tag.value} deleteTag={(e) => deleteTag(e, tag.id)} />
+        {fields.map((field, index) => (
+          <Tag key={field.id} tagValue={field.value} deleteTag={(e) => deleteTag(e, index)} />
         ))}
         <div className={classes.tags__new}>
           <input
@@ -34,7 +39,7 @@ export default function Tags() {
             placeholder="Tag"
             value={tagValue}
           />
-          <ColorButton onClick={(e) => addNewTag(e)} color="blue" btnClass={classes.tags__add}>
+          <ColorButton onClick={addNewTag} color="blue" btnClass={classes.tags__add}>
             Add tag
           </ColorButton>
         </div>
@@ -42,3 +47,8 @@ export default function Tags() {
     </div>
   );
 }
+
+Tags.propTypes = {
+  control: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
+};

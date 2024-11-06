@@ -65,7 +65,7 @@ export default function ArticleForm() {
           >
             Text
           </FormField>
-          <Tags />
+          <Tags control={control} name="tags" />
         </div>
         <SubmitButton disabled={!isValid}>Save</SubmitButton>
       </form>
