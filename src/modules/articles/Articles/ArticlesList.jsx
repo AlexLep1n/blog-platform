@@ -2,21 +2,38 @@ import classes from './Articles.module.css';
 import Article from '../../../components/parts/Article/Article';
 import { useGetArticlesQuery } from '../api';
 import { nanoid } from 'nanoid';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Alert, ConfigProvider, Pagination, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
+import { usePagination } from '../../../hooks/usePagination';
 
 export default function Articles() {
-  const [page, setPage] = useState(1);
+  const [page, changePage] = usePagination(1);
   const { data, isLoading, isSuccess, isError } = useGetArticlesQuery(page - 1);
+  const [articlesWithIds, setArticlesWithIds] = useState([]);
 
-  const articles = useMemo(() => data?.articles ?? [], [data]);
-  const articlesCount = data?.articlesCount;
+  const articles = useMemo(() => data?.articles ?? [], [data?.articles]);
+  const articlesCount = data?.articlesCount || 0;
 
-  const articlesWithIds = useMemo(
-    () => articles.map((article) => ({ ...article, id: nanoid() })),
-    [articles]
-  );
+  useEffect(() => {
+    if (articles) {
+      setArticlesWithIds(articles.map((article) => ({ ...article, id: nanoid() })));
+    }
+  }, [articles]);
+
+  const paginationTheme = {
+    components: {
+      Pagination: {
+        itemActiveBg: '#1890ff',
+        itemBg: '#ebeef3',
+        colorPrimary: '#fff',
+        colorPrimaryHover: '#fff',
+        colorLinkHover: 'rgba(0, 0, 0, 0.75)',
+        colorBgTextHover: '#1890ff',
+        colorText: 'rgba(0, 0, 0, 0.75)',
+      },
+    },
+  };
 
   return (
     <section className={classes.users}>
@@ -35,27 +52,13 @@ export default function Articles() {
             <Article {...article} />
           </div>
         ))}
-      {isSuccess && (
-        <ConfigProvider
-          theme={{
-            components: {
-              Pagination: {
-                itemActiveBg: '#1890ff',
-                itemBg: '#ebeef3',
-                colorPrimary: '#fff',
-                colorPrimaryHover: '#fff',
-                colorLinkHover: 'rgba(0, 0, 0, 0.75)',
-                colorBgTextHover: '#1890ff',
-                colorText: 'rgba(0, 0, 0, 0.75)',
-              },
-            },
-          }}
-        >
+      {isSuccess && articlesCount && (
+        <ConfigProvider theme={paginationTheme}>
           <Pagination
             current={page}
             pageSize={5}
             total={articlesCount}
-            onChange={(page) => setPage(page)}
+            onChange={changePage}
             showSizeChanger={false}
           />
         </ConfigProvider>

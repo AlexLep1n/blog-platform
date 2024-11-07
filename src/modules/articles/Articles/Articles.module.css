@@ -22,7 +22,8 @@ a[rel='nofollow']:hover {
   color: white;
 }
 
-span[role='img'] > svg[data-icon='double-right'] {
+span[role='img'] > svg[data-icon='double-right'],
+span[role='img'] > svg[data-icon='double-left'] {
   color: var(--primary-color);
 }
 

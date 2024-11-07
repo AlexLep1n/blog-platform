@@ -15,17 +15,17 @@ export default function ArticleInfo() {
 
   return (
     <>
-      {isError && (
-        <Alert
-          type="error"
-          message="Error"
-          description="Sorry, the article could not be uploaded. Please try again later."
-          showIcon
-        />
-      )}
-      {isLoading && <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />}
-      {isSuccess && (
-        <div className={classes['article-info']}>
+      <div className={classes['article-info']}>
+        {isError && (
+          <Alert
+            type="error"
+            message="Error"
+            description="Sorry, the article could not be uploaded. Please try again later."
+            showIcon
+          />
+        )}
+        {isLoading && <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />}
+        {isSuccess && (
           <div className={classes['article-info__content']}>
             <div className={classes['article-info__article-box']}>
               <Article {...article} />
@@ -34,8 +34,8 @@ export default function ArticleInfo() {
               <Markdown>{body}</Markdown>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 }
