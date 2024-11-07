@@ -35,7 +35,7 @@ export default function ArticleInfo() {
         {isSuccess && (
           <div className={classes['article-info__content']}>
             <div className={classes['article-info__article-box']}>
-              <Article {...article} />
+              <Article {...article} isMyArticle={isMyArticle} />
             </div>
             <div className={classes['article-info__body']}>
               <Markdown>{body}</Markdown>

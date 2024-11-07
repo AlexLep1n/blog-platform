@@ -18,6 +18,7 @@ export const articleFormApi = baseApi.injectEndpoints({
           },
         },
       }),
+      invalidatesTags: ['Articles'],
     }),
   }),
 });

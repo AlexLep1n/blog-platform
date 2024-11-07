@@ -5,5 +5,5 @@ const baseUrl = 'https://blog-platform.kata.academy/api';
 export const baseApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl }),
   endpoints: () => ({}),
-  tagTypes: ['Edit'],
+  tagTypes: ['Edit', 'Articles'],
 });

@@ -55,6 +55,13 @@
   color: var(--text-color);
 }
 
+/* user and buttons general div */
+.article__user-and-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
 /* user info, post date & icon */
 .article__user {
   display: flex;
@@ -85,4 +92,27 @@
 .article__user-icon {
   width: 46px;
   height: 46px;
+}
+
+/* delete and edit buttons box */
+
+.article__btns {
+  display: flex;
+  gap: 12px;
+}
+
+.article__btn {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 157%;
+}
+
+.article__btn-delete {
+  padding: 6px 17px;
+  color: var(--error-color);
+}
+
+.article__btn-edit {
+  padding: 6px 19px;
+  color: var(--success-color);
 }

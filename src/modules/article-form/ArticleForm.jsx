@@ -24,6 +24,7 @@ export default function ArticleForm() {
     try {
       console.log(newArticleData);
       const { article } = await createArticle(newArticleData).unwrap();
+      console.log(article.slug);
       dispatch(addSlug(article.slug));
       reset();
     } catch (error) {
