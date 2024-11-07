@@ -3,17 +3,32 @@ import FormField from '../../components/ui/FormField/FormField';
 import SubmitButton from '../../components/ui/SubmitButton/SubmitButton';
 import classes from './ArticleForm.module.css';
 import Tags from '../../components/parts/Tags/Tags';
+import { useCreateArticleMutation } from './api';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addSlug } from '../articles/articlesSlice';
 
 export default function ArticleForm() {
+  const [createArticle] = useCreateArticleMutation();
+  const [serverError, setServerError] = useState({});
+  const dispatch = useDispatch();
+
   const {
     control,
     handleSubmit,
     formState: { isValid },
-    // reset,
+    reset,
   } = useForm({ mode: 'onChange' });
 
-  const onSubmit = (newArticleData) => {
-    console.log(newArticleData);
+  const onSubmit = async (newArticleData) => {
+    try {
+      console.log(newArticleData);
+      const { article } = await createArticle(newArticleData).unwrap();
+      dispatch(addSlug(article.slug));
+      reset();
+    } catch (error) {
+      setServerError(error?.errors);
+    }
   };
 
   return (
@@ -32,9 +47,7 @@ export default function ArticleForm() {
         <div className={classes['article-form__inputs']}>
           <FormField
             control={control}
-            name="Title"
-            // serverError={serverError}
-            // clearError={() => setServerError((prev) => ({ ...prev, username: '' }))}
+            name="title"
             rules={{
               required: 'Title field cannot be empty.',
             }}
@@ -44,9 +57,7 @@ export default function ArticleForm() {
           </FormField>
           <FormField
             control={control}
-            name="shortDescription"
-            // serverError={serverError}
-            // clearError={() => setServerError((prev) => ({ ...prev, email: '' }))}
+            name="description"
             rules={{
               required: 'Short description field cannot be empty.',
             }}
@@ -56,7 +67,9 @@ export default function ArticleForm() {
           </FormField>
           <FormField
             control={control}
-            name="text"
+            name="body"
+            serverError={serverError}
+            clearError={() => setServerError({})}
             rules={{
               required: 'Text field cannot be empty.',
             }}
@@ -67,7 +80,9 @@ export default function ArticleForm() {
           </FormField>
           <Tags control={control} name="tags" />
         </div>
-        <SubmitButton disabled={!isValid}>Save</SubmitButton>
+        <SubmitButton btnClass={classes['article-form__submit-btn']} disabled={!isValid}>
+          Save
+        </SubmitButton>
       </form>
     </section>
   );

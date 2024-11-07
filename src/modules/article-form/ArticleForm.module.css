@@ -37,3 +37,8 @@
   width: 100%;
   gap: 21px;
 }
+
+.article-form__submit-btn {
+  width: 319px;
+  align-self: start;
+}
