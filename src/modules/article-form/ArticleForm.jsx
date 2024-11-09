@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useForm } from 'react-hook-form';
 import FormField from '../../components/ui/FormField/FormField';
 import SubmitButton from '../../components/ui/SubmitButton/SubmitButton';
@@ -5,13 +6,10 @@ import classes from './ArticleForm.module.css';
 import Tags from '../../components/parts/Tags/Tags';
 import { useCreateArticleMutation } from './api';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { addSlug } from '../articles/articlesSlice';
 
 export default function ArticleForm() {
   const [createArticle] = useCreateArticleMutation();
   const [serverError, setServerError] = useState({});
-  const dispatch = useDispatch();
 
   const {
     control,
@@ -24,8 +22,6 @@ export default function ArticleForm() {
     try {
       console.log(newArticleData);
       const { article } = await createArticle(newArticleData).unwrap();
-      console.log(article.slug);
-      dispatch(addSlug(article.slug));
       reset();
     } catch (error) {
       setServerError(error?.errors);

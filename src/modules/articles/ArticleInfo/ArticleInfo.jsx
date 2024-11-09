@@ -5,19 +5,15 @@ import Article from '../../../components/parts/Article/Article';
 import { Alert, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import Markdown from 'markdown-to-jsx';
-import { useSelector } from 'react-redux';
-import { slugSelector } from '../articlesSlice';
 
 export default function ArticleInfo() {
   const { slug } = useParams();
   const { data, isLoading, isSuccess, isError } = useGetArticleInfoQuery(slug);
-  const createdSlugs = useSelector(slugSelector);
-  console.log('createdSlugs', createdSlugs);
 
   const article = data?.article || {};
   const { body } = article;
 
-  const isMyArticle = createdSlugs.some((storeSlug) => storeSlug === slug);
+  const isMyArticle = true;
   console.log('isMyArticle', isMyArticle);
 
   return (
