@@ -23,7 +23,6 @@ export default function SignIn() {
 
   const onSubmit = async (loginUserData) => {
     try {
-      console.log(loginUserData);
       const {
         user: { token },
       } = await signInUser(loginUserData).unwrap();

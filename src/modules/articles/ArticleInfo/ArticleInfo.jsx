@@ -19,8 +19,6 @@ export default function ArticleInfo() {
   const user = currentUserData?.user;
   const isMyArticle = article.author?.username === user?.username;
 
-  console.log('isMyArticle', isMyArticle);
-
   if (isError) {
     return (
       <div className={classes['article-info']}>

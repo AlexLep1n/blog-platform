@@ -9,6 +9,5 @@ export const useTags = (tagList) => {
         .filter(Boolean),
     [tagList]
   );
-  console.log(tagsWithIds);
   return tagsWithIds;
 };

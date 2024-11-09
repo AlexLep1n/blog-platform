@@ -3,12 +3,13 @@ import classes from './Article.module.css';
 import userIcon from '/img/user-icon.svg';
 import { Rate } from 'antd';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTags } from '../../../hooks/useTags';
 import ColorButton from '../../../components/ui/ColorButton/ColorButton';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { HeartFilled } from '@ant-design/icons';
 import CustomModal from '../../../components/ui/CustomModal/CustomModal';
+import { useDeleteArticleMutation } from '../api';
 
 export default function Article({
   author: { username, image: imgUrl },
@@ -21,15 +22,21 @@ export default function Article({
   isMyArticle,
 }) {
   const tagsWithIds = useTags(tagList);
-  console.log(isMyArticle);
 
   const [open, setOpen] = useState(false);
-  const deleteButtonRef = useRef(null);
   const showModal = () => setOpen(true);
 
+  const [deleteArticle] = useDeleteArticleMutation();
+  const navigate = useNavigate();
+
   const yesHandler = () => {
-    setOpen(false);
-    // логика удаления статьи
+    try {
+      setOpen(false);
+      deleteArticle(slug).unwrap();
+      navigate('/articles');
+    } catch (error) {
+      console.log('Ошибка удаления статьи: ', error);
+    }
   };
   const noHandler = () => setOpen(false);
 
@@ -75,7 +82,6 @@ export default function Article({
               onClick={showModal}
               color="red"
               btnClass={`${classes['article__btn']} ${classes['article__btn-delete']}`}
-              ref={deleteButtonRef}
             >
               Delete
             </ColorButton>

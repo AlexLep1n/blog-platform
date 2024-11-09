@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useForm } from 'react-hook-form';
 import FormField from '../../../components/ui/FormField/FormField';
 import SubmitButton from '../../../components/ui/SubmitButton/SubmitButton';
@@ -20,9 +19,7 @@ export default function ArticleForm() {
 
   const onSubmit = async (newArticleData) => {
     try {
-      console.log(newArticleData);
-      const { article } = await createArticle(newArticleData).unwrap();
-
+      await createArticle(newArticleData).unwrap();
       reset();
     } catch (error) {
       setServerError(error?.errors);
@@ -31,15 +28,6 @@ export default function ArticleForm() {
 
   return (
     <section className={classes['article-form']}>
-      {/* {isError && (
-      <Alert
-        type="error"
-        message="Error"
-        description="Sorry, the user could not be uploaded. Please try again later."
-        showIcon
-      />
-    )}
-    {isLoading && <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />} */}
       <form onSubmit={handleSubmit(onSubmit)} className={classes['article-form__form']}>
         <h2 className={classes['article-form__title']}>Create new article</h2>
         <div className={classes['article-form__inputs']}>

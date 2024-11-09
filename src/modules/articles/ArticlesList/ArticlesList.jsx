@@ -8,7 +8,8 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { usePagination } from '../../../hooks/usePagination';
 
 export default function ArticlesList() {
-  const [page, changePage] = usePagination(1);
+  const initialPage = Number(localStorage.getItem('page')) || 1;
+  const [page, changePage] = usePagination(initialPage);
   const { data, isLoading, isSuccess, isError } = useGetArticlesQuery(page - 1);
   const [articlesWithIds, setArticlesWithIds] = useState([]);
 
@@ -36,7 +37,7 @@ export default function ArticlesList() {
   };
 
   return (
-    <section className={classes.users}>
+    <section className={classes.articles}>
       {isError && (
         <Alert
           type="error"

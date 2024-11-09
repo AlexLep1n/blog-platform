@@ -11,6 +11,7 @@ export default function Header() {
   const navigate = useNavigate();
   const logOutHandler = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('page');
     navigate('/');
   };
   const { data: { user } = {}, isSuccess } = useGetCurrentUserQuery(token || skipToken);

@@ -35,6 +35,7 @@ export const articlesApi = baseApi.injectEndpoints({
           Authorization: `Bearer ${token}`,
         },
       }),
+      invalidatesTags: ['Articles'],
     }),
   }),
 
