@@ -1,5 +1,5 @@
-import classes from './Articles.module.css';
-import Article from '../../../components/parts/Article/Article';
+import classes from './ArticlesList.module.css';
+import Article from '../Article/Article';
 import { useGetArticlesQuery } from '../api';
 import { nanoid } from 'nanoid';
 import { useState, useMemo, useEffect } from 'react';
@@ -7,7 +7,7 @@ import { Alert, ConfigProvider, Pagination, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { usePagination } from '../../../hooks/usePagination';
 
-export default function Articles() {
+export default function ArticlesList() {
   const [page, changePage] = usePagination(1);
   const { data, isLoading, isSuccess, isError } = useGetArticlesQuery(page - 1);
   const [articlesWithIds, setArticlesWithIds] = useState([]);

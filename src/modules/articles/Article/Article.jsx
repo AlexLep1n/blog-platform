@@ -5,10 +5,10 @@ import { Rate } from 'antd';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useTags } from '../../../hooks/useTags';
-import ColorButton from '../../ui/ColorButton/ColorButton';
+import ColorButton from '../../../components/ui/ColorButton/ColorButton';
 import { useRef, useState } from 'react';
 import { HeartFilled } from '@ant-design/icons';
-import CustomModal from '../../ui/CustomModal/CustomModal';
+import CustomModal from '../../../components/ui/CustomModal/CustomModal';
 
 export default function Article({
   author: { username, image: imgUrl },
@@ -29,6 +29,7 @@ export default function Article({
 
   const yesHandler = () => {
     setOpen(false);
+    // логика удаления статьи
   };
   const noHandler = () => setOpen(false);
 

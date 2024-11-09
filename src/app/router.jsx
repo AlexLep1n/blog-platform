@@ -8,7 +8,7 @@ import SignIn from '../modules/auth/SignIn/SignIn';
 import SignUp from '../modules/auth/SignUp/SignUp';
 import Header from '../components/blocks/Header/Header';
 import EditProfile from '../modules/profile/EditProfile';
-import ArticleForm from '../modules/article-form/ArticleForm';
+import ArticleForm from '../modules/articles/ArticleForm/ArticleForm';
 
 export const router = createBrowserRouter([
   {

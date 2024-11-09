@@ -1,7 +1,7 @@
 import classes from './ArticleInfo.module.css';
 import { useGetArticleInfoQuery } from '../api';
 import { useParams } from 'react-router-dom';
-import Article from '../../../components/parts/Article/Article';
+import Article from '../Article/Article';
 import { Alert, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import Markdown from 'markdown-to-jsx';

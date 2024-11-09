@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { useForm } from 'react-hook-form';
-import FormField from '../../components/ui/FormField/FormField';
-import SubmitButton from '../../components/ui/SubmitButton/SubmitButton';
+import FormField from '../../../components/ui/FormField/FormField';
+import SubmitButton from '../../../components/ui/SubmitButton/SubmitButton';
 import classes from './ArticleForm.module.css';
-import Tags from '../../components/parts/Tags/Tags';
-import { useCreateArticleMutation } from './api';
+import Tags from '../../../components/parts/Tags/Tags';
 import { useState } from 'react';
+import { useCreateArticleMutation } from '../api';
 
 export default function ArticleForm() {
   const [createArticle] = useCreateArticleMutation();

@@ -1,9 +1,9 @@
-import Articles from '../modules/articles/Articles/ArticlesList';
+import ArticlesList from '../modules/articles/ArticlesList/ArticlesList';
 
 export default function ArticlesPage() {
   return (
     <>
-      <Articles />
+      <ArticlesList />
     </>
   );
 }
