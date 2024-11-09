@@ -1,0 +1,61 @@
+.modal {
+  background-color: var(--background-color-base);
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  padding: 12px 16px;
+  width: 240px;
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  right: -166px;
+}
+
+.modal__alert {
+  background-color: var(--background-color-base);
+  font-family: var(--second-family);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 157%;
+  color: #595959;
+  border: none;
+}
+
+div[role='alert'] {
+  padding: 0;
+  display: flex;
+  align-items: start;
+}
+
+div[role='alert'] > span[role='img'] {
+  padding-top: 3px;
+}
+
+.modal__buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.modal__no-button,
+.modal__yes-button {
+  font-family: var(--second-family);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 157%;
+  text-align: center;
+  padding: 1px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: var(--background-color-base);
+}
+
+.modal__no-button {
+  border: 1px solid var(--normal-color);
+}
+
+.modal__yes-button {
+  color: var(--background-color-base);
+  background: var(--primary-color);
+}

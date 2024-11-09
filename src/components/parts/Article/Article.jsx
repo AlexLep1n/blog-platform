@@ -2,11 +2,13 @@ import { format } from 'date-fns';
 import classes from './Article.module.css';
 import userIcon from '/img/user-icon.svg';
 import { Rate } from 'antd';
-import { HeartFilled } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { useTags } from '../../../hooks/useTags';
 import ColorButton from '../../ui/ColorButton/ColorButton';
+import { useRef, useState } from 'react';
+import { HeartFilled } from '@ant-design/icons';
+import CustomModal from '../../ui/CustomModal/CustomModal';
 
 export default function Article({
   author: { username, image: imgUrl },
@@ -20,6 +22,15 @@ export default function Article({
 }) {
   const tagsWithIds = useTags(tagList);
   console.log(isMyArticle);
+
+  const [open, setOpen] = useState(false);
+  const deleteButtonRef = useRef(null);
+  const showModal = () => setOpen(true);
+
+  const yesHandler = () => {
+    setOpen(false);
+  };
+  const noHandler = () => setOpen(false);
 
   return (
     <>
@@ -60,11 +71,14 @@ export default function Article({
         {isMyArticle && (
           <div className={classes.article__btns}>
             <ColorButton
+              onClick={showModal}
               color="red"
               btnClass={`${classes['article__btn']} ${classes['article__btn-delete']}`}
+              ref={deleteButtonRef}
             >
               Delete
             </ColorButton>
+            {open && <CustomModal onCancel={noHandler} onYes={yesHandler} />}
             <ColorButton
               color="green"
               btnClass={`${classes['article__btn']} ${classes['article__btn-edit']}`}
