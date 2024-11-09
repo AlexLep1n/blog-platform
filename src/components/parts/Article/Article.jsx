@@ -38,11 +38,12 @@ export default function Article({
           <span className={classes['article__like-count']}>{favoritesCount}</span>
         </div>
         <div className={classes.article__tags}>
-          {tagsWithIds.map((tag) => (
-            <p key={tag.id} className={classes.article__tag}>
-              {tag.name}
-            </p>
-          ))}
+          {tagsWithIds &&
+            tagsWithIds.map((tag) => (
+              <p key={tag.id} className={classes.article__tag}>
+                {tag.name}
+              </p>
+            ))}
         </div>
         <p className={classes.article__description}>{description}</p>
       </div>

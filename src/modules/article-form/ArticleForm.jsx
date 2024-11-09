@@ -22,6 +22,7 @@ export default function ArticleForm() {
     try {
       console.log(newArticleData);
       const { article } = await createArticle(newArticleData).unwrap();
+
       reset();
     } catch (error) {
       setServerError(error?.errors);

@@ -5,40 +5,53 @@ import Article from '../../../components/parts/Article/Article';
 import { Alert, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import Markdown from 'markdown-to-jsx';
+import { useGetCurrentUserQuery } from '../../profile/api';
+import { skipToken } from '@reduxjs/toolkit/query';
 
 export default function ArticleInfo() {
   const { slug } = useParams();
-  const { data, isLoading, isSuccess, isError } = useGetArticleInfoQuery(slug);
+  const apiToken = localStorage.getItem('token');
 
-  const article = data?.article || {};
-  const { body } = article;
+  const { data: artcileData, isLoading, isError } = useGetArticleInfoQuery(slug);
+  const { data: currentUserData } = useGetCurrentUserQuery(apiToken || skipToken);
 
-  const isMyArticle = true;
+  const article = artcileData?.article || {};
+  const user = currentUserData?.user;
+  const isMyArticle = article.author?.username === user?.username;
+
   console.log('isMyArticle', isMyArticle);
 
-  return (
-    <>
+  if (isError) {
+    return (
       <div className={classes['article-info']}>
-        {isError && (
-          <Alert
-            type="error"
-            message="Error"
-            description="Sorry, the article could not be uploaded. Please try again later."
-            showIcon
-          />
-        )}
-        {isLoading && <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />}
-        {isSuccess && (
-          <div className={classes['article-info__content']}>
-            <div className={classes['article-info__article-box']}>
-              <Article {...article} isMyArticle={isMyArticle} />
-            </div>
-            <div className={classes['article-info__body']}>
-              <Markdown>{body}</Markdown>
-            </div>
-          </div>
-        )}
+        <Alert
+          type="error"
+          message="Error"
+          description="Sorry, the article could not be uploaded. Please try again later."
+          showIcon
+        />
       </div>
-    </>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className={classes['article-info']}>
+        <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />
+      </div>
+    );
+  }
+
+  return (
+    <div className={classes['article-info']}>
+      <div className={classes['article-info__content']}>
+        <div className={classes['article-info__article-box']}>
+          <Article {...article} isMyArticle={isMyArticle} />
+        </div>
+        <div className={classes['article-info__body']}>
+          <Markdown>{article.body}</Markdown>
+        </div>
+      </div>
+    </div>
   );
 }
