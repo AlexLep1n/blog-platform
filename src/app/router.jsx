@@ -55,6 +55,10 @@ export const router = createBrowserRouter([
       {
         path: '/new-article',
         element: <ArticleForm />,
+        loader: () => {
+          const token = localStorage.getItem('token');
+          return !token ? redirect('/sign-in') : null;
+        },
       },
     ],
   },

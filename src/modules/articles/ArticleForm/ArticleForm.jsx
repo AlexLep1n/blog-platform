@@ -5,6 +5,7 @@ import classes from './ArticleForm.module.css';
 import Tags from '../../../components/parts/Tags/Tags';
 import { useState } from 'react';
 import { useCreateArticleMutation } from '../api';
+import { message } from 'antd';
 
 export default function ArticleForm() {
   const [createArticle] = useCreateArticleMutation();
@@ -22,6 +23,7 @@ export default function ArticleForm() {
       const formattedArticleData = { ...newArticleData, tagList: tagsValues };
       await createArticle(formattedArticleData).unwrap();
       reset();
+      message.success('Success');
     } catch (error) {
       setServerError(error?.errors);
     }
