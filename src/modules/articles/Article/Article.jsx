@@ -1,14 +1,12 @@
 import { format } from 'date-fns';
 import classes from './Article.module.css';
 import userIcon from '/img/user-icon.svg';
-import { Rate } from 'antd';
+import { Popconfirm, Rate } from 'antd';
 import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTags } from '../../../hooks/useTags';
 import ColorButton from '../../../components/ui/ColorButton/ColorButton';
-import { useState } from 'react';
 import { HeartFilled } from '@ant-design/icons';
-import CustomModal from '../../../components/ui/CustomModal/CustomModal';
 import { useDeleteArticleMutation } from '../api';
 
 export default function Article({
@@ -23,22 +21,17 @@ export default function Article({
 }) {
   const tagsWithIds = useTags(tagList);
 
-  const [open, setOpen] = useState(false);
-  const showModal = () => setOpen(true);
-
   const [deleteArticle] = useDeleteArticleMutation();
   const navigate = useNavigate();
 
   const yesHandler = () => {
     try {
-      setOpen(false);
       deleteArticle(slug).unwrap();
       navigate('/articles');
     } catch (error) {
       console.log('Ошибка удаления статьи: ', error);
     }
   };
-  const noHandler = () => setOpen(false);
 
   return (
     <>
@@ -78,14 +71,20 @@ export default function Article({
         </div>
         {isMyArticle && (
           <div className={classes.article__btns}>
-            <ColorButton
-              onClick={showModal}
-              color="red"
-              btnClass={`${classes['article__btn']} ${classes['article__btn-delete']}`}
+            <Popconfirm
+              title="Are you sure to delete this article?"
+              okText="Yes"
+              cancelText="No"
+              onConfirm={yesHandler}
+              placement="rightTop"
             >
-              Delete
-            </ColorButton>
-            {open && <CustomModal onCancel={noHandler} onYes={yesHandler} />}
+              <ColorButton
+                color="red"
+                btnClass={`${classes['article__btn']} ${classes['article__btn-delete']}`}
+              >
+                Delete
+              </ColorButton>
+            </Popconfirm>
             <ColorButton
               color="green"
               btnClass={`${classes['article__btn']} ${classes['article__btn-edit']}`}

@@ -43,3 +43,8 @@ body {
   max-width: 1440px;
   margin: 0 auto;
 }
+
+/* Изменения ширины popconfirm */
+div[class='ant-popover-content'] {
+  width: 240px;
+}

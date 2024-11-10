@@ -99,7 +99,6 @@
 .article__btns {
   display: flex;
   gap: 12px;
-  position: relative;
 }
 
 .article__btn {
@@ -111,7 +110,19 @@
 .article__btn-delete {
   padding: 6px 17px;
   color: var(--error-color);
-  position: relative;
+}
+
+/* Стили для кнопки delete после появления popconfirm */
+button[class='ant-popover-open'] {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 157%;
+  padding: 6px 17px;
+  color: var(--error-color);
+  background-color: var(--background-color-base);
+  border: 1px solid var(--error-color);
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .article__btn-edit {
