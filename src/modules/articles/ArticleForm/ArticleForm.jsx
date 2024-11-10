@@ -16,10 +16,11 @@ export default function ArticleForm() {
     formState: { isValid },
     reset,
   } = useForm({ mode: 'onChange' });
-
   const onSubmit = async (newArticleData) => {
     try {
-      await createArticle(newArticleData).unwrap();
+      const tagsValues = newArticleData.tags.map((tag) => tag.value);
+      const formattedArticleData = { ...newArticleData, tagList: tagsValues };
+      await createArticle(formattedArticleData).unwrap();
       reset();
     } catch (error) {
       setServerError(error?.errors);
