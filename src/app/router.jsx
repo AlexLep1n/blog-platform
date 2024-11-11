@@ -8,6 +8,7 @@ import SignUp from '../modules/auth/SignUp/SignUp';
 import Header from '../components/blocks/Header/Header';
 import EditProfile from '../modules/profile/EditProfile';
 import ArticleForm from '../modules/articles/ArticleForm/ArticleForm';
+import ArticleEdit from '../modules/articles/ArticleEdit/ArticleEdit';
 
 export const router = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ export const router = createBrowserRouter([
           const token = localStorage.getItem('token');
           return !token ? redirect('/sign-in') : null;
         },
+      },
+      {
+        path: '/articles/:slug/edit',
+        element: <ArticleEdit />,
       },
     ],
   },

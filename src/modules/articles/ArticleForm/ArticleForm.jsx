@@ -22,7 +22,7 @@ export default function ArticleForm() {
       const tagsValues = newArticleData.tags.map((tag) => tag.value);
       const formattedArticleData = { ...newArticleData, tagList: tagsValues };
       await createArticle(formattedArticleData).unwrap();
-      reset();
+      reset({ title: '', description: '', body: '', tags: [] });
       message.success('Success');
     } catch (error) {
       setServerError(error?.errors);
