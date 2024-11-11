@@ -1,3 +1,5 @@
+import ArticleForm from '../ArticleForm/ArticleForm';
+
 export default function ArticleEdit() {
-  return;
+  return <ArticleForm isEdited={true} />;
 }

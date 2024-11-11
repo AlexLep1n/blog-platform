@@ -3,13 +3,21 @@ import FormField from '../../../components/ui/FormField/FormField';
 import SubmitButton from '../../../components/ui/SubmitButton/SubmitButton';
 import classes from './ArticleForm.module.css';
 import Tags from '../../../components/parts/Tags/Tags';
-import { useState } from 'react';
-import { useCreateArticleMutation } from '../api';
+import { useEffect, useMemo, useState } from 'react';
+import { useCreateArticleMutation, useGetArticleInfoQuery, useUpdateArticleMutation } from '../api';
 import { message } from 'antd';
+import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
+import { nanoid } from 'nanoid';
 
-export default function ArticleForm() {
+export default function ArticleForm({ isEdited }) {
   const [createArticle] = useCreateArticleMutation();
+  const [updateArticle] = useUpdateArticleMutation();
+  const { slug } = useParams();
+  const { data } = useGetArticleInfoQuery(slug);
   const [serverError, setServerError] = useState({});
+
+  const article = useMemo(() => data?.article || [], [data?.article]);
 
   const {
     control,
@@ -17,12 +25,35 @@ export default function ArticleForm() {
     formState: { isValid },
     reset,
   } = useForm({ mode: 'onChange' });
-  const onSubmit = async (newArticleData) => {
+
+  useEffect(() => {
+    if (isEdited && data && article) {
+      const { title, description, body, tagList } = article;
+      reset({
+        title,
+        description,
+        body,
+        tags: tagList.map((tag) => ({
+          id: nanoid(),
+          value: tag,
+        })),
+      });
+    }
+  }, [isEdited, data, article, reset]);
+
+  const onSubmit = async (formData) => {
+    const { title, description, body, tags } = formData;
+    const tagsValues = tags.map((tag) => tag.value);
+    const formattedArticleData = { title, description, body, tagList: tagsValues };
+
     try {
-      const tagsValues = newArticleData.tags.map((tag) => tag.value);
-      const formattedArticleData = { ...newArticleData, tagList: tagsValues };
-      await createArticle(formattedArticleData).unwrap();
-      reset({ title: '', description: '', body: '', tags: [] });
+      if (isEdited) {
+        await updateArticle({ slug, articleData: formattedArticleData }).unwrap();
+        reset(article);
+      } else {
+        await createArticle(formattedArticleData).unwrap();
+        reset({ title: '', description: '', body: '', tags: [] });
+      }
       message.success('Success');
     } catch (error) {
       setServerError(error?.errors);
@@ -32,7 +63,9 @@ export default function ArticleForm() {
   return (
     <section className={classes['article-form']}>
       <form onSubmit={handleSubmit(onSubmit)} className={classes['article-form__form']}>
-        <h2 className={classes['article-form__title']}>Create new article</h2>
+        <h2 className={classes['article-form__title']}>
+          {isEdited ? 'Edit article' : 'Create new article'}
+        </h2>
         <div className={classes['article-form__inputs']}>
           <FormField
             control={control}
@@ -76,3 +109,7 @@ export default function ArticleForm() {
     </section>
   );
 }
+
+ArticleForm.propTypes = {
+  isEdited: PropTypes.bool,
+};

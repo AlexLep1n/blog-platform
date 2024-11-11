@@ -33,6 +33,8 @@ export default function Article({
     }
   };
 
+  const editHandler = () => navigate(`/articles/${slug}/edit`);
+
   return (
     <>
       <div className={classes.article__content}>
@@ -86,6 +88,7 @@ export default function Article({
               </ColorButton>
             </Popconfirm>
             <ColorButton
+              onClick={editHandler}
               color="green"
               btnClass={`${classes['article__btn']} ${classes['article__btn-edit']}`}
             >

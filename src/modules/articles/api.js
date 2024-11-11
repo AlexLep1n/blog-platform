@@ -10,6 +10,7 @@ export const articlesApi = baseApi.injectEndpoints({
     }),
     getArticleInfo: create.query({
       query: (slug) => `/articles/${slug}`,
+      providesTags: ['Articles'],
     }),
     createArticle: create.mutation({
       query: (articleData) => ({
@@ -28,11 +29,27 @@ export const articlesApi = baseApi.injectEndpoints({
       invalidatesTags: ['Articles'],
     }),
     deleteArticle: create.mutation({
-      query: (deletedArticleSlug) => ({
-        url: `/articles/${deletedArticleSlug}`,
+      query: (slug) => ({
+        url: `/articles/${slug}`,
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ['Articles'],
+    }),
+    updateArticle: create.mutation({
+      query: ({ slug, articleData }) => ({
+        url: `/articles/${slug}`,
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: {
+          article: {
+            ...articleData,
+          },
         },
       }),
       invalidatesTags: ['Articles'],
@@ -47,4 +64,5 @@ export const {
   useGetArticleInfoQuery,
   useCreateArticleMutation,
   useDeleteArticleMutation,
+  useUpdateArticleMutation,
 } = articlesApi;
