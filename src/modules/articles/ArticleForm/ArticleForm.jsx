@@ -3,21 +3,16 @@ import FormField from '../../../components/ui/FormField/FormField';
 import SubmitButton from '../../../components/ui/SubmitButton/SubmitButton';
 import classes from './ArticleForm.module.css';
 import Tags from '../../../components/parts/Tags/Tags';
-import { useEffect, useMemo, useState } from 'react';
-import { useCreateArticleMutation, useGetArticleInfoQuery, useUpdateArticleMutation } from '../api';
-import { message } from 'antd';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { nanoid } from 'nanoid';
+import { useArticleForm } from '../../../hooks/useArticleForm';
 
 export default function ArticleForm({ isEdited }) {
-  const [createArticle] = useCreateArticleMutation();
-  const [updateArticle] = useUpdateArticleMutation();
   const { slug } = useParams();
-  const { data } = useGetArticleInfoQuery(slug);
+  const { article, handleCreateArticle, handleUpdateArticle } = useArticleForm(slug);
   const [serverError, setServerError] = useState({});
-
-  const article = useMemo(() => data?.article || [], [data?.article]);
 
   const {
     control,
@@ -27,7 +22,7 @@ export default function ArticleForm({ isEdited }) {
   } = useForm({ mode: 'onChange' });
 
   useEffect(() => {
-    if (isEdited && data && article) {
+    if (isEdited && article && Array.isArray(article.tagList)) {
       const { title, description, body, tagList } = article;
       reset({
         title,
@@ -39,7 +34,7 @@ export default function ArticleForm({ isEdited }) {
         })),
       });
     }
-  }, [isEdited, data, article, reset]);
+  }, [isEdited, article, reset]);
 
   const onSubmit = async (formData) => {
     const { title, description, body, tags } = formData;
@@ -48,13 +43,11 @@ export default function ArticleForm({ isEdited }) {
 
     try {
       if (isEdited) {
-        await updateArticle({ slug, articleData: formattedArticleData }).unwrap();
-        reset(article);
+        handleUpdateArticle(slug, formattedArticleData);
       } else {
-        await createArticle(formattedArticleData).unwrap();
+        await handleCreateArticle(formattedArticleData);
         reset({ title: '', description: '', body: '', tags: [] });
       }
-      message.success('Success');
     } catch (error) {
       setServerError(error?.errors);
     }
