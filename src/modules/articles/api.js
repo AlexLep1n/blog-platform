@@ -6,11 +6,14 @@ export const articlesApi = baseApi.injectEndpoints({
   endpoints: (create) => ({
     getArticles: create.query({
       query: (skipCount) => `/articles?limit=${5}&offset=${skipCount * 5}`,
-      providesTags: ['Articles'],
+      providesTags: [{ type: 'Articles', id: 'LIST' }],
     }),
     getArticleInfo: create.query({
       query: (slug) => `/articles/${slug}`,
-      providesTags: ['Articles'],
+      providesTags: (_, __, slug) => [
+        { type: 'Articles', id: 'LIST' },
+        { type: 'Articles', id: slug },
+      ],
     }),
     createArticle: create.mutation({
       query: (articleData) => ({
@@ -26,7 +29,7 @@ export const articlesApi = baseApi.injectEndpoints({
           },
         },
       }),
-      invalidatesTags: ['Articles'],
+      invalidatesTags: [{ type: 'Articles', id: 'LIST' }],
     }),
     deleteArticle: create.mutation({
       query: (slug) => ({
@@ -36,7 +39,7 @@ export const articlesApi = baseApi.injectEndpoints({
           Authorization: `Bearer ${token}`,
         },
       }),
-      invalidatesTags: ['Articles'],
+      invalidatesTags: [{ type: 'Articles', id: 'LIST' }],
     }),
     updateArticle: create.mutation({
       query: ({ slug, articleData }) => ({
@@ -52,7 +55,30 @@ export const articlesApi = baseApi.injectEndpoints({
           },
         },
       }),
-      invalidatesTags: ['Articles'],
+      invalidatesTags: (_, __, slug) => [
+        { type: 'Articles', id: 'LIST' },
+        { type: 'Articles', id: slug },
+      ],
+    }),
+    favoriteArticle: create.mutation({
+      query: (slug) => ({
+        url: `/articles/${slug}/favorite`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: (_, __, slug) => [{ type: 'Articles', id: slug }],
+    }),
+    unfavoriteArticle: create.mutation({
+      query: (slug) => ({
+        url: `/articles/${slug}/favorite`,
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: (_, __, slug) => [{ type: 'Articles', id: slug }],
     }),
   }),
 
@@ -65,4 +91,6 @@ export const {
   useCreateArticleMutation,
   useDeleteArticleMutation,
   useUpdateArticleMutation,
+  useFavoriteArticleMutation,
+  useUnfavoriteArticleMutation,
 } = articlesApi;

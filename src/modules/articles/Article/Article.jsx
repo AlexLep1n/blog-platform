@@ -7,7 +7,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTags } from '../../../hooks/useTags';
 import ColorButton from '../../../components/ui/ColorButton/ColorButton';
 import { HeartFilled } from '@ant-design/icons';
-import { useDeleteArticleMutation } from '../api';
+import {
+  useDeleteArticleMutation,
+  useFavoriteArticleMutation,
+  useUnfavoriteArticleMutation,
+} from '../api';
+import { useState } from 'react';
 
 export default function Article({
   author: { username, image: imgUrl },
@@ -15,13 +20,16 @@ export default function Article({
   title,
   description,
   createdAt,
-  favoritesCount,
+  favoritesCount: initialFavoritesCount,
+  favorited,
   tagList,
   isMyArticle,
 }) {
   const tagsWithIds = useTags(tagList);
 
   const [deleteArticle] = useDeleteArticleMutation();
+  const [favoriteArticle] = useFavoriteArticleMutation();
+  const [unfavoriteArticle] = useUnfavoriteArticleMutation();
   const navigate = useNavigate();
 
   const yesHandler = () => {
@@ -34,6 +42,25 @@ export default function Article({
   };
 
   const editHandler = () => navigate(`/articles/${slug}/edit`);
+  const token = localStorage.getItem('token');
+  const [liked, setLiked] = useState(favorited);
+  const [favoritesCount, setFavoritesCount] = useState(initialFavoritesCount);
+  const [userImage, setUserImage] = useState(imgUrl);
+
+  const handleLikeToggle = async () => {
+    try {
+      let updatedArticle;
+      if (!liked) {
+        updatedArticle = await favoriteArticle(slug).unwrap();
+      } else {
+        updatedArticle = await unfavoriteArticle(slug).unwrap();
+      }
+      setFavoritesCount(updatedArticle.article.favoritesCount);
+      setLiked(updatedArticle.article.favorited);
+    } catch (error) {
+      console.log('Ошибка при попытке лайка/дизлайка', error);
+    }
+  };
 
   return (
     <>
@@ -46,8 +73,11 @@ export default function Article({
             className={classes.article__like}
             style={{ color: 'red' }}
             character={<HeartFilled />}
+            value={liked ? 1 : 0}
             count={1}
-            disabled
+            disabled={!token}
+            allowClear={true}
+            onChange={handleLikeToggle}
           />
           <span className={classes['article__like-count']}>{favoritesCount}</span>
         </div>
@@ -69,7 +99,12 @@ export default function Article({
               {format(new Date(createdAt), 'MMMM d, yyyy')}
             </p>
           </div>
-          <img className={classes['article__user-icon']} src={imgUrl ?? userIcon} alt="user icon" />
+          <img
+            className={classes['article__user-icon']}
+            src={userImage}
+            onError={() => setUserImage(userIcon)}
+            alt="user icon"
+          />
         </div>
         {isMyArticle && (
           <div className={classes.article__btns}>
@@ -108,6 +143,7 @@ Article.propTypes = {
   description: PropTypes.string,
   createdAt: PropTypes.string,
   favoritesCount: PropTypes.number,
+  favorited: PropTypes.bool,
   tagList: PropTypes.array,
   isMyArticle: PropTypes.bool,
 };
