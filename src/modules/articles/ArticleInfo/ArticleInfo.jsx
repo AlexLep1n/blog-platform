@@ -10,10 +10,10 @@ import { skipToken } from '@reduxjs/toolkit/query';
 
 export default function ArticleInfo() {
   const { slug } = useParams();
-  const apiToken = localStorage.getItem('token');
+  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
   const { data: artcileData, isLoading, isError } = useGetArticleInfoQuery(slug);
-  const { data: currentUserData } = useGetCurrentUserQuery(apiToken || skipToken);
+  const { data: currentUserData } = useGetCurrentUserQuery(token || skipToken);
 
   const article = artcileData?.article || {};
   const user = currentUserData?.user;

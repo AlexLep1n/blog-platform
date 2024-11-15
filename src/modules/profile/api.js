@@ -1,6 +1,6 @@
 import { baseApi } from '../../shared/api';
 
-const apiToken = localStorage.getItem('token');
+const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
 export const profileApi = baseApi.injectEndpoints({
   endpoints: (create) => ({
@@ -20,7 +20,7 @@ export const profileApi = baseApi.injectEndpoints({
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${apiToken}`,
+          Authorization: `Bearer ${token}`,
         },
         body: { user: { ...updateUserData, bio: 'Learn RTK Query' } },
       }),

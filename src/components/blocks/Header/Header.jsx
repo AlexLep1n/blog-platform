@@ -6,7 +6,7 @@ import { useGetCurrentUserQuery } from '../../../modules/profile/api';
 import { skipToken } from '@reduxjs/toolkit/query';
 
 export default function Header() {
-  const token = localStorage.getItem('token');
+  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
   const navigate = useNavigate();
   const logOutHandler = () => {

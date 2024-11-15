@@ -42,7 +42,7 @@ export default function Article({
   };
 
   const editHandler = () => navigate(`/articles/${slug}/edit`);
-  const token = localStorage.getItem('token');
+  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
   const [liked, setLiked] = useState(favorited);
   const [favoritesCount, setFavoritesCount] = useState(initialFavoritesCount);
   const [userImage, setUserImage] = useState(imgUrl);

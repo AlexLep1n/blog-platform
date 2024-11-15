@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { skipToken } from '@reduxjs/toolkit/query';
 
 export default function EditProfile() {
-  const token = localStorage.getItem('token');
+  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
   const {
     data: { user } = {},
