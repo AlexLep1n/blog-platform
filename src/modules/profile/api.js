@@ -17,7 +17,7 @@ export const profileApi = baseApi.injectEndpoints({
         },
         body: { user: { ...updateUserData, bio: 'Learn RTK Query' } },
       }),
-      invalidatesTags: ['Edit'],
+      invalidatesTags: ['Edit', { type: 'Articles', id: 'LIST' }],
     }),
   }),
   overrideExisting: true,
