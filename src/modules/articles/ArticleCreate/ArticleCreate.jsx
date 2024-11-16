@@ -1,21 +1,21 @@
-import ArticleForm from '../../../components/blocks/ArticleForm/ArticleForm';
 import { useParams } from 'react-router-dom';
 import { useArticleForm } from '../../../hooks/useArticleForm';
+import ArticleForm from '../../../components/blocks/ArticleForm/ArticleForm';
 import { useArticleFormLogic } from '../../../hooks/useArticleFormLogic';
 
-export default function ArticleEdit() {
+export default function ArticleCreate() {
   const { slug } = useParams();
-  const { article, handleUpdateArticle } = useArticleForm(slug);
+  const { handleCreateArticle } = useArticleForm(slug);
 
   const { control, handleSubmit, onSubmit, isValid, serverError, setServerError } =
-    useArticleFormLogic(article, (formData) => handleUpdateArticle(slug, formData));
+    useArticleFormLogic(null, (formData) => handleCreateArticle(formData));
 
   return (
     <ArticleForm
       handleSubmit={handleSubmit}
       onSubmit={onSubmit}
       control={control}
-      isEdited={true}
+      isEdited={false}
       serverError={serverError}
       setServerError={setServerError}
       isValid={isValid}

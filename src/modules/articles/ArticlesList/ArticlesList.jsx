@@ -1,8 +1,6 @@
 import classes from './ArticlesList.module.css';
 import Article from '../Article/Article';
 import { useGetArticlesQuery } from '../api';
-import { nanoid } from 'nanoid';
-import { useState, useMemo, useEffect } from 'react';
 import { Alert, ConfigProvider, Pagination, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { usePagination } from '../../../hooks/usePagination';
@@ -11,16 +9,9 @@ export default function ArticlesList() {
   const initialPage = Number(localStorage.getItem('page')) || 1;
   const [page, changePage] = usePagination(initialPage);
   const { data, isLoading, isSuccess, isError } = useGetArticlesQuery(page - 1);
-  const [articlesWithIds, setArticlesWithIds] = useState([]);
 
-  const articles = useMemo(() => data?.articles ?? [], [data?.articles]);
+  const articles = data?.articles ?? [];
   const articlesCount = data?.articlesCount || 0;
-
-  useEffect(() => {
-    if (articles) {
-      setArticlesWithIds(articles.map((article) => ({ ...article, id: nanoid() })));
-    }
-  }, [articles]);
 
   const paginationTheme = {
     components: {
@@ -48,8 +39,8 @@ export default function ArticlesList() {
       )}
       {isLoading && <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />}
       {isSuccess &&
-        articlesWithIds.map((article) => (
-          <div key={article.id} className={classes.article}>
+        articles.map((article) => (
+          <div key={article.slug} className={classes.article}>
             <Article {...article} />
           </div>
         ))}

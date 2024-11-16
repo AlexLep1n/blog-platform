@@ -7,7 +7,7 @@ import SignIn from '../modules/auth/SignIn/SignIn';
 import SignUp from '../modules/auth/SignUp/SignUp';
 import Header from '../components/blocks/Header/Header';
 import EditProfile from '../modules/profile/EditProfile';
-import ArticleForm from '../modules/articles/ArticleForm/ArticleForm';
+import ArticleCreate from '../modules/articles/ArticleCreate/ArticleCreate';
 import ArticleEdit from '../modules/articles/ArticleEdit/ArticleEdit';
 
 export const router = createBrowserRouter([
@@ -54,7 +54,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/new-article',
-        element: <ArticleForm />,
+        element: <ArticleCreate />,
         loader: () => {
           const token = localStorage.getItem('token');
           return !token ? redirect('/sign-in') : null;
