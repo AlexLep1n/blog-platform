@@ -7,17 +7,9 @@ import { LoadingOutlined } from '@ant-design/icons';
 import SubmitButton from '../../components/ui/SubmitButton/SubmitButton';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { skipToken } from '@reduxjs/toolkit/query';
 
 export default function EditProfile() {
-  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-
-  const {
-    data: { user } = {},
-    isLoading,
-    isSuccess,
-    isError,
-  } = useGetCurrentUserQuery(token || skipToken);
+  const { data: { user } = {}, isLoading, isSuccess, isError } = useGetCurrentUserQuery();
   const [updateUser, { isError: isServerError }] = useUpdateCurrentUserMutation();
 
   const navigate = useNavigate();

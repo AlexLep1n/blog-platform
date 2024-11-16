@@ -1,15 +1,20 @@
 import { baseApi } from '../../shared/api';
 
-const token = localStorage.getItem('token');
-
 export const articlesApi = baseApi.injectEndpoints({
   endpoints: (create) => ({
     getArticles: create.query({
-      query: (skipCount) => `/articles?limit=${5}&offset=${skipCount * 5}`,
+      query: (skipCount) => ({
+        url: `/articles?limit=${5}&offset=${skipCount * 5}`,
+        headers: { Authorization: undefined },
+      }),
       providesTags: [{ type: 'Articles', id: 'LIST' }],
     }),
     getArticleInfo: create.query({
-      query: (slug) => `/articles/${slug}`,
+      query: (slug) => ({
+        url: `/articles/${slug}`,
+        method: 'GET',
+        headers: { Authorization: undefined },
+      }),
       providesTags: (_, __, slug) => [
         { type: 'Articles', id: 'LIST' },
         { type: 'Articles', id: slug },
@@ -20,7 +25,6 @@ export const articlesApi = baseApi.injectEndpoints({
         url: '/articles',
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: {
@@ -35,9 +39,6 @@ export const articlesApi = baseApi.injectEndpoints({
       query: (slug) => ({
         url: `/articles/${slug}`,
         method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
       invalidatesTags: [{ type: 'Articles', id: 'LIST' }],
     }),
@@ -46,7 +47,6 @@ export const articlesApi = baseApi.injectEndpoints({
         url: `/articles/${slug}`,
         method: 'PUT',
         headers: {
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: {
@@ -64,9 +64,6 @@ export const articlesApi = baseApi.injectEndpoints({
       query: (slug) => ({
         url: `/articles/${slug}/favorite`,
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
       invalidatesTags: (_, __, slug) => [{ type: 'Articles', id: slug }],
     }),
@@ -74,9 +71,9 @@ export const articlesApi = baseApi.injectEndpoints({
       query: (slug) => ({
         url: `/articles/${slug}/favorite`,
         method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
       }),
       invalidatesTags: (_, __, slug) => [{ type: 'Articles', id: slug }],
     }),

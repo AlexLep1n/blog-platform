@@ -1,17 +1,11 @@
 import { baseApi } from '../../shared/api';
 
-const token = localStorage.getItem('token');
+// const token = localStorage.getItem('token');
 
 export const profileApi = baseApi.injectEndpoints({
   endpoints: (create) => ({
     getCurrentUser: create.query({
-      query: (token) => ({
-        url: '/user',
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
+      query: () => '/user',
       providesTags: ['Edit'],
     }),
     updateCurrentUser: create.mutation({
@@ -20,7 +14,6 @@ export const profileApi = baseApi.injectEndpoints({
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: { user: { ...updateUserData, bio: 'Learn RTK Query' } },
       }),

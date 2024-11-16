@@ -6,7 +6,10 @@ export const authApi = baseApi.injectEndpoints({
       query: (userData) => ({
         url: '/users',
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: undefined,
+        },
         body: {
           user: {
             username: userData.username,
@@ -20,7 +23,10 @@ export const authApi = baseApi.injectEndpoints({
       query: (loginUserData) => ({
         url: '/users/login',
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: undefined,
+        },
         body: {
           user: {
             email: loginUserData.email,
