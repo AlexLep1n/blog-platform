@@ -1,19 +1,33 @@
 import PropTypes from 'prop-types';
 import classes from './FormField.module.css';
-import { useController } from 'react-hook-form';
+import { Control, FieldPath, FieldValues, RegisterOptions, useController } from 'react-hook-form';
 
-export default function FormField({
+interface FormFieldProps<T extends FieldValues> {
+  control: Control<T>;
+  name: FieldPath<T>;
+  children: string;
+  rules: RegisterOptions<T>;
+  serverError?: Record<string, string>;
+  signInError?: string;
+  type?: string;
+  clearError?: () => void;
+  textArea?: boolean;
+  placeholder?: string;
+  [key: string]: unknown;
+}
+
+export default function FormField<T extends FieldValues>({
   control,
   name,
   children,
   rules,
-  serverError = '',
-  signInError = '',
+  serverError = {},
+  signInError,
   type = 'text',
   clearError,
   textArea = false,
   ...props
-}) {
+}: FormFieldProps<T>) {
   const {
     field: { onBlur, onChange, value, ref },
     fieldState: { error },

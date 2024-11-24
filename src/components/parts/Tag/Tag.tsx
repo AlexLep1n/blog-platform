@@ -1,8 +1,13 @@
+import React from 'react';
 import ColorButton from '../../ui/ColorButton/ColorButton';
 import classes from './Tag.module.css';
-import PropTypes from 'prop-types';
 
-export default function Tag({ tagValue, deleteTag }) {
+interface Props {
+  tagValue: string;
+  deleteTag: (e: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+export default function Tag({ tagValue, deleteTag }: Props) {
   return (
     <div className={classes.tag}>
       <input
@@ -18,8 +23,3 @@ export default function Tag({ tagValue, deleteTag }) {
     </div>
   );
 }
-
-Tag.propTypes = {
-  tagValue: PropTypes.string.isRequired,
-  deleteTag: PropTypes.func.isRequired,
-};

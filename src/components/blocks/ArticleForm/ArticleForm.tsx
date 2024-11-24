@@ -2,7 +2,24 @@ import classes from './ArticleForm.module.css';
 import FormField from '../../ui/FormField/FormField';
 import Tags from '../../parts/Tags/Tags';
 import SubmitButton from '../../ui/SubmitButton/SubmitButton';
-import PropTypes from 'prop-types';
+import { Control, SubmitHandler, UseFormHandleSubmit } from 'react-hook-form';
+
+interface FormData {
+  title: string;
+  description: string;
+  body: string;
+  tags: { id: string; value: string }[];
+}
+
+interface ArticleFormProps {
+  serverError?: Record<string, string>;
+  setServerError: (error: Record<string, string>) => void;
+  isEdited: boolean;
+  isValid: boolean;
+  handleSubmit: UseFormHandleSubmit<FormData>;
+  onSubmit: SubmitHandler<FormData>;
+  control: Control<FormData>;
+}
 
 export default function ArticleForm({
   handleSubmit,
@@ -12,7 +29,7 @@ export default function ArticleForm({
   setServerError,
   isEdited,
   isValid,
-}) {
+}: ArticleFormProps) {
   return (
     <section className={classes['article-form']}>
       <form onSubmit={handleSubmit(onSubmit)} className={classes['article-form__form']}>
@@ -20,7 +37,7 @@ export default function ArticleForm({
           {isEdited ? 'Edit article' : 'Create new article'}
         </h2>
         <div className={classes['article-form__inputs']}>
-          <FormField
+          <FormField<FormData>
             control={control}
             name="title"
             rules={{
@@ -30,7 +47,7 @@ export default function ArticleForm({
           >
             Title
           </FormField>
-          <FormField
+          <FormField<FormData>
             control={control}
             name="description"
             rules={{
@@ -40,7 +57,7 @@ export default function ArticleForm({
           >
             Short description
           </FormField>
-          <FormField
+          <FormField<FormData>
             control={control}
             name="body"
             serverError={serverError}
@@ -53,7 +70,7 @@ export default function ArticleForm({
           >
             Text
           </FormField>
-          <Tags control={control} name="tags" />
+          <Tags<FormData> control={control} name="tags" />
         </div>
         <SubmitButton btnClass={classes['article-form__submit-btn']} disabled={!isValid}>
           Save
@@ -62,13 +79,3 @@ export default function ArticleForm({
     </section>
   );
 }
-
-ArticleForm.propTypes = {
-  isEdited: PropTypes.bool,
-  isValid: PropTypes.bool,
-  handleSubmit: PropTypes.func,
-  onSubmit: PropTypes.func,
-  control: PropTypes.elementType,
-  serverError: PropTypes.object,
-  setServerError: PropTypes.func,
-};
