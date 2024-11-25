@@ -5,6 +5,11 @@ import { useArticleFormLogic } from '../../../hooks/useArticleFormLogic';
 
 export default function ArticleEdit() {
   const { slug } = useParams();
+
+  if (!slug) {
+    throw new Error('Slug is required to use this component.');
+  }
+
   const { article, handleUpdateArticle } = useArticleForm(slug);
 
   const { control, handleSubmit, onSubmit, isValid, serverError, setServerError } =

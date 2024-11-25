@@ -14,6 +14,18 @@ import {
 } from '../api';
 import { useState } from 'react';
 
+interface ArticleProps {
+  author: { username: string; image: string };
+  slug: string;
+  title: string;
+  description: string;
+  createdAt: string;
+  favoritesCount: number;
+  favorited: boolean;
+  tagList: string[];
+  isMyArticle: boolean;
+}
+
 export default function Article({
   author: { username, image: imgUrl },
   slug,
@@ -24,7 +36,7 @@ export default function Article({
   favorited,
   tagList,
   isMyArticle,
-}) {
+}: ArticleProps) {
   const tagsWithIds = useTags(tagList);
 
   const [deleteArticle] = useDeleteArticleMutation();
