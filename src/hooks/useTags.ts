@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { nanoid } from 'nanoid';
 
-export type Tag = { name: string; id: string };
+type Tag = { name: string; id: string };
 
 interface IUseTags {
   (tagList: string[]): Tag[];

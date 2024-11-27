@@ -7,23 +7,26 @@ import {
 import { message } from 'antd';
 import { useMemo } from 'react';
 import { IArticle } from '../modules/articles/article-interface';
-import { articlesApi } from '../modules/articles/api';
+// import { articlesApi } from '../modules/articles/api';
 
-type ArticleUpdate = Parameters<ReturnType<typeof articlesApi.endpoints.updateArticle.initiate>>[0];
-type ArticleCreate = Parameters<ReturnType<typeof articlesApi.endpoints.createArticle.initiate>>[0];
-
-interface IArticleUpdate {
-  (updateData: ArticleUpdate): Promise<void>;
+interface IArticleFormData {
+  title: string;
+  description: string;
+  body: string;
+  tagList?: string[];
 }
 
-interface IArticleCreate {
-  (createData: ArticleCreate): Promise<void>;
+// type ArticleUpdate = Parameters<ReturnType<typeof articlesApi.endpoints.updateArticle.initiate>>[0];
+// type ArticleCreate = Parameters<ReturnType<typeof articlesApi.endpoints.createArticle.initiate>>[0];
+
+export interface IArticleFunc {
+  (updateData: IArticleFormData): Promise<void>;
 }
 
 interface UseArticleFormReturn {
   article: IArticle;
-  handleUpdateArticle: IArticleUpdate;
-  handleCreateArticle: IArticleCreate;
+  handleUpdateArticle: IArticleFunc;
+  handleCreateArticle: IArticleFunc;
 }
 
 export const useArticleForm = (slug: string): UseArticleFormReturn => {
@@ -33,12 +36,12 @@ export const useArticleForm = (slug: string): UseArticleFormReturn => {
 
   const article = useMemo(() => data?.article || {}, [data?.article]);
 
-  const handleUpdateArticle: IArticleUpdate = async (updateData) => {
+  const handleUpdateArticle: IArticleFunc = async (updateData) => {
     await updateArticle(updateData).unwrap();
     message.success('Article updated successfully!');
   };
 
-  const handleCreateArticle: IArticleCreate = async (createData) => {
+  const handleCreateArticle: IArticleFunc = async (createData) => {
     await createArticle(createData).unwrap();
     message.success('Article created successfully!');
   };
